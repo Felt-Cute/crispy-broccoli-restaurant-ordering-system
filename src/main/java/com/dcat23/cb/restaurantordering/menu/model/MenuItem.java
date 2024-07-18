@@ -1,21 +1,18 @@
 package com.dcat23.cb.restaurantordering.menu.model;
 
-
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Set;
-
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "menus")
-public class Menu {
+@Table(name = "menu_items")
+public class MenuItem {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,9 +24,16 @@ public class Menu {
     @Column(nullable = false)
     private String description;
 
-    @OneToMany(mappedBy = "menu",
-            cascade = CascadeType.ALL,
-            fetch = FetchType.EAGER)
-    private Set<MenuItem> menuItems;
+    @Column(nullable = false)
+    private Double price;
 
+    @Column(nullable = false)
+    private String category;
+
+    @Column(nullable = false, name = "image_url")
+    private String imageUrl;
+
+    @ManyToOne
+    @JoinColumn(name = "menu_id")
+    private Menu menu;
 }
