@@ -8,6 +8,7 @@ import com.dcat23.cb.restaurantordering.menu.repository.MenuRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
 
 @Service
@@ -53,6 +54,7 @@ public class MenuServiceImpl implements MenuService {
         Menu menu = Menu.builder()
                 .name(menuCreationDto.name())
                 .description(menuCreationDto.description())
+//                .menuItems(new HashSet<>())
                 .build();
         menuCreationDto.menuItems().forEach(menu::addItem);
         return menuRepository.save(menu);

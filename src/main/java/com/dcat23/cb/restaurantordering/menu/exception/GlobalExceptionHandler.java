@@ -19,7 +19,7 @@ public class GlobalExceptionHandler {
             Exception e,
             HttpServletRequest request
     ) {
-        log.error("[{}] {}", e.getCause() , e.getMessage());
+        log.error(e.getMessage(), e);
         ErrorMessage errorMessage = new ErrorMessage(
                 request.getRequestURI(),
                 e.getMessage(),
