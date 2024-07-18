@@ -1,12 +1,14 @@
 package com.dcat23.cb.restaurantordering.menu.model;
 
 
+import com.dcat23.cb.restaurantordering.menu.dto.MenuItemDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Data
@@ -30,6 +32,9 @@ public class Menu {
     @OneToMany(mappedBy = "menu",
             cascade = CascadeType.ALL,
             fetch = FetchType.EAGER)
-    private Set<MenuItem> menuItems;
+    private Set<MenuItem> menuItems = new HashSet<>();
 
+    public void addItem(MenuItemDto menuItemDto) {
+
+    }
 }

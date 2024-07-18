@@ -1,0 +1,56 @@
+package com.dcat23.cb.restaurantordering.menu.service;
+
+import com.dcat23.cb.restaurantordering.menu.dto.MenuCreationDto;
+import com.dcat23.cb.restaurantordering.menu.model.Menu;
+import com.dcat23.cb.restaurantordering.menu.repository.MenuRepository;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+
+import static org.assertj.core.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
+class MenuServiceTest {
+
+    @Mock
+    private MenuRepository menuRepository;
+
+    @InjectMocks
+    private MenuServiceImpl menuService;
+
+    private AutoCloseable closeable;
+
+    @BeforeEach
+    void setUp() {
+        closeable = MockitoAnnotations.openMocks(this);
+    }
+
+    @AfterEach
+    void tearDown() throws Exception {
+        closeable.close();
+    }
+
+
+    @Test
+    @DisplayName("Create menu")
+    void givenMenuCreationDto_whenSave_thenMenuCreated() {
+        /* Given - menu creation dto */
+        MenuCreationDto creationDto = mock(MenuCreationDto.class);
+
+        /* When - save */
+        when(menuRepository.save(any(Menu.class)))
+                .thenReturn(mock(Menu.class));
+        Menu menu = menuService.createMenu(creationDto);
+
+        /* Then - menu created */
+        assertThat(menu).isNotNull();
+    }
+
+
+}
