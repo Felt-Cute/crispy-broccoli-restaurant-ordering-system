@@ -2,7 +2,9 @@ package com.dcat23.cb.restaurantordering.menu.service;
 
 import com.dcat23.cb.restaurantordering.menu.dto.MenuCreationDto;
 import com.dcat23.cb.restaurantordering.menu.dto.MenuItemDto;
+import com.dcat23.cb.restaurantordering.menu.dto.MenuUpdateDto;
 import com.dcat23.cb.restaurantordering.menu.model.Menu;
+import com.dcat23.cb.restaurantordering.menu.model.MenuItem;
 import com.dcat23.cb.restaurantordering.menu.repository.MenuRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,10 +15,12 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -93,5 +97,22 @@ class MenuServiceTest {
         );
     }
 
+
+    @Test
+    @DisplayName("Update menu")
+    void givenMenuUpdateDto_whenUpdate_thenReturnMenu() {
+        /* Given - menu update dto */
+        MenuUpdateDto updateDto = mock(MenuUpdateDto.class);
+
+        /* When - update */
+        when(menuRepository.findById(anyLong()))
+                .thenReturn(Optional.of(mock(Menu.class)));
+        when(menuRepository.save(any(Menu.class)))
+                .thenReturn(mock(Menu.class));
+        Menu menu = menuService.updateMenu(anyLong(), updateDto);
+
+        /* Then - return menu */
+        assertThat(menu).isNotNull();
+    }
 
 }

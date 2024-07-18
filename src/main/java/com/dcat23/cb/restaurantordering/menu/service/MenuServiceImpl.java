@@ -13,7 +13,7 @@ import java.util.List;
 @Service
 public class MenuServiceImpl implements MenuService {
 
-    private MenuRepository menuRepository;
+    private final MenuRepository menuRepository;
 
     @Autowired
     public MenuServiceImpl(MenuRepository menuRepository) {
@@ -28,6 +28,7 @@ public class MenuServiceImpl implements MenuService {
     @Override
     public Menu updateMenu(Long id, MenuUpdateDto menuUpdateDto) {
         Menu menu = getMenuById(id);
+
         if (menuUpdateDto.name() != null) {
             menu.setName(menuUpdateDto.name());
         }
