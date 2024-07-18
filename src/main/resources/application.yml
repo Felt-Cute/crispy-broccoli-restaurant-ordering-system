@@ -1,1 +1,27 @@
-spring.application.name=restaurant-ordering
+server:
+  port: 8181
+
+spring:
+  application:
+    name: restaurant-ordering
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        format_sql: true
+    show-sql: false
+  datasource:
+    url: jdbc:postgresql://localhost:5432/${POSTGRES_DB:restaurant_ordering}
+    password: ${POSTGRES_PASSWORD:password}
+    username: ${POSTGRES_USER:default}
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+  api-docs:
+    path: /v3/api-docs
+logging:
+  level:
+    root: warn
+    com.dcat23.kearny: debug
