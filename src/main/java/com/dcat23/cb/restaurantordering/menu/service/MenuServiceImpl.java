@@ -27,8 +27,20 @@ public class MenuServiceImpl implements MenuService {
      */
     @Override
     public Menu updateMenu(Long id, MenuUpdateDto menuUpdateDto) {
-        Menu menuById = getMenuById(id);
-        return null;
+        Menu menu = getMenuById(id);
+        if (menuUpdateDto.name() != null) {
+            menu.setName(menuUpdateDto.name());
+        }
+
+        if (menuUpdateDto.description() != null) {
+            menu.setDescription(menuUpdateDto.description());
+        }
+
+        if (menuUpdateDto.menuItems() != null && !menuUpdateDto.menuItems().isEmpty()) {
+            menu.addAllMenuItems(menuUpdateDto.menuItems());
+        }
+
+        return menuRepository.save(menu);
     }
 
     /**
