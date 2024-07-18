@@ -3,18 +3,13 @@ package com.dcat23.cb.restaurantordering.menu.model;
 
 import com.dcat23.cb.restaurantordering.menu.dto.MenuItemDto;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.HashSet;
 import java.util.Set;
 
+
 @Data
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table(name = "menus")
 public class Menu {
@@ -34,12 +29,21 @@ public class Menu {
             fetch = FetchType.EAGER)
     private Set<MenuItem> menuItems;
 
-    public void addItem(MenuItemDto menuItemDto) {
+
+    public Menu() {
+        menuItems = new HashSet<>();
+    }
+
+    public void addMenuItem(MenuItemDto menuItemDto) {
         if (menuItems == null) {
             menuItems = new HashSet<>();
         }
         MenuItem menuItem = MenuItem.of(menuItemDto);
         menuItem.setMenu(this);
         menuItems.add(menuItem);
+    }
+
+    public void addAllMenuItems(Set<MenuItemDto> menuItemDtos) {
+        menuItemDtos.forEach(this::addMenuItem);
     }
 }

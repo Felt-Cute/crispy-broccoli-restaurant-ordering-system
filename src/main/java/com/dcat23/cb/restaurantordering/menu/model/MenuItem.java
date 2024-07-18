@@ -43,6 +43,7 @@ public class MenuItem {
     private Menu menu;
 
     public static MenuItem of(MenuItemDto menuItemDto) {
+        Objects.requireNonNull(menuItemDto, "menuItemDto must not be null");
         return builder()
                 .name(menuItemDto.name())
                 .description(menuItemDto.description())

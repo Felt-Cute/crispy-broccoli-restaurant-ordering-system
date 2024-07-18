@@ -8,9 +8,7 @@ import com.dcat23.cb.restaurantordering.menu.repository.MenuRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Objects;
 
 @Service
 public class MenuServiceImpl implements MenuService {
@@ -54,20 +52,11 @@ public class MenuServiceImpl implements MenuService {
      */
     @Override
     public Menu createMenu(MenuCreationDto menuCreationDto) {
-        Menu menu = Menu.builder()
-                .name(menuCreationDto.name())
-                .description(menuCreationDto.description())
-                .menuItems(new HashSet<>())
-                .build();
-        addMenuItems(menuCreationDto, menu);
+        Menu menu = new Menu();
+        menu.setName(menuCreationDto.name());
+        menu.setDescription(menuCreationDto.description());
+        menu.addAllMenuItems(menuCreationDto.menuItems());
         return menuRepository.save(menu);
-    }
-
-    private static void addMenuItems(MenuCreationDto menuCreationDto, Menu menu) {
-        Objects.requireNonNull(menu);
-        Objects.requireNonNull(menuCreationDto);
-        Objects.requireNonNull(menuCreationDto.menuItems());
-        menuCreationDto.menuItems().forEach(menu::addItem);
     }
 
     /**
