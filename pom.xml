@@ -8,27 +8,17 @@
         <version>3.3.1</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
+
     <groupId>com.dcat23.cb</groupId>
     <artifactId>restaurant-ordering</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>restaurant-ordering</name>
     <description>restaurant-ordering</description>
-    <url/>
-    <licenses>
-        <license/>
-    </licenses>
-    <developers>
-        <developer/>
-    </developers>
-    <scm>
-        <connection/>
-        <developerConnection/>
-        <tag/>
-        <url/>
-    </scm>
+
     <properties>
         <java.version>17</java.version>
     </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
