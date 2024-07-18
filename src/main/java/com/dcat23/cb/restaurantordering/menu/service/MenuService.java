@@ -13,7 +13,7 @@ public interface MenuService {
 
     Menu createMenu(MenuCreationDto menuCreationDto);
 
-    Menu updateMenu(MenuUpdateDto menuUpdateDto);
+    Menu updateMenu(Long id, MenuUpdateDto menuUpdateDto);
 
     Menu deleteMenu(Long id);
 }

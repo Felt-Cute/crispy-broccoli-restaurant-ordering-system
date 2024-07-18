@@ -4,6 +4,7 @@ import com.dcat23.cb.restaurantordering.menu.dto.MenuCreationDto;
 import com.dcat23.cb.restaurantordering.menu.dto.MenuUpdateDto;
 import com.dcat23.cb.restaurantordering.menu.model.Menu;
 import com.dcat23.cb.restaurantordering.menu.service.MenuService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -34,14 +35,14 @@ public class MenuController {
     }
 
     @PostMapping
-    public ResponseEntity<Menu> createMenu(@RequestBody MenuCreationDto menuCreationDto) {
+    public ResponseEntity<Menu> createMenu(@Valid @RequestBody MenuCreationDto menuCreationDto) {
         Menu menu = menuService.createMenu(menuCreationDto);
         return ResponseEntity.ok(menu);
     }
 
-    @PutMapping
-    public ResponseEntity<Menu> updateMenu(@RequestBody MenuUpdateDto menuUpdateDto) {
-        Menu menu = menuService.updateMenu(menuUpdateDto);
+    @PutMapping("/{id}")
+    public ResponseEntity<Menu> updateMenu(@PathVariable Long id, @Valid @RequestBody MenuUpdateDto menuUpdateDto) {
+        Menu menu = menuService.updateMenu(id, menuUpdateDto);
         return ResponseEntity.ok(menu);
     }
 

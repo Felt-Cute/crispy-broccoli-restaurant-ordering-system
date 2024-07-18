@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class MenuServiceImpl implements MenuService {
@@ -22,11 +23,13 @@ public class MenuServiceImpl implements MenuService {
     }
 
     /**
+     * @param id
      * @param menuUpdateDto
      * @return
      */
     @Override
-    public Menu updateMenu(MenuUpdateDto menuUpdateDto) {
+    public Menu updateMenu(Long id, MenuUpdateDto menuUpdateDto) {
+        Menu menuById = getMenuById(id);
         return null;
     }
 
@@ -56,8 +59,15 @@ public class MenuServiceImpl implements MenuService {
                 .description(menuCreationDto.description())
                 .menuItems(new HashSet<>())
                 .build();
-        menuCreationDto.menuItems().forEach(menu::addItem);
+        addMenuItems(menuCreationDto, menu);
         return menuRepository.save(menu);
+    }
+
+    private static void addMenuItems(MenuCreationDto menuCreationDto, Menu menu) {
+        Objects.requireNonNull(menu);
+        Objects.requireNonNull(menuCreationDto);
+        Objects.requireNonNull(menuCreationDto.menuItems());
+        menuCreationDto.menuItems().forEach(menu::addItem);
     }
 
     /**
