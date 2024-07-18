@@ -136,7 +136,7 @@ To run this project, you will need to add the following environment variables to
 ---
 
 ## Implementation Steps
-- [] Set up Spring Boot project with necessary dependencies
+- [x] Set up Spring Boot project with necessary dependencies
 - [] Implement database models and repositories
 - [] Create RESTful API endpoints
 - [] Implement business logic in service layers
