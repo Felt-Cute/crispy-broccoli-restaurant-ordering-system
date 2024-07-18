@@ -23,7 +23,7 @@ It also provides restaurant staff with tools to manage orders and update menus.
 ## Technologies
 Project is created with:
 * [Java 21](https://docs.oracle.com/en/java/javase/21/)
-* [Spring Boot: 3.2.5](https://docs.spring.io/spring-boot/docs/current/reference/html/)
+* [Spring Boot: 3.3.1](https://docs.spring.io/spring-boot/docs/current/reference/html/)
 
 ---
 
@@ -50,8 +50,8 @@ docker compose up -d
 
 ## API Reference
 
-API Gateway is set to port `8080` by default
-`http://localhost:8080/`
+API Gateway is set to port `8181` by default
+`http://localhost:8181/`
 
 ### Menu API
 - `GET /api/menus`
