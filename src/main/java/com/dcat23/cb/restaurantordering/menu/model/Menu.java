@@ -23,7 +23,7 @@ public class Menu {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String name;
 
     @Column(nullable = false)
@@ -32,9 +32,13 @@ public class Menu {
     @OneToMany(mappedBy = "menu",
             cascade = CascadeType.ALL,
             fetch = FetchType.EAGER)
-    private Set<MenuItem> menuItems = new HashSet<>();
+    private Set<MenuItem> menuItems;
 
     public void addItem(MenuItemDto menuItemDto) {
+        if (menuItems == null) {
+            menuItems = new HashSet<>();
+        }
+
         MenuItem menuItem = MenuItem.of(menuItemDto);
         menuItem.setMenu(this);
         menuItems.add(menuItem);

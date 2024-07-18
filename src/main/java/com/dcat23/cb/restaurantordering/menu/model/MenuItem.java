@@ -1,6 +1,7 @@
 package com.dcat23.cb.restaurantordering.menu.model;
 
 import com.dcat23.cb.restaurantordering.menu.dto.MenuItemDto;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -36,6 +37,7 @@ public class MenuItem {
     @Column(nullable = false, name = "image_url")
     private String imageUrl;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "menu_id")
     private Menu menu;

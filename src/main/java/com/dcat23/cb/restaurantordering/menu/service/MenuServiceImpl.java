@@ -54,7 +54,7 @@ public class MenuServiceImpl implements MenuService {
         Menu menu = Menu.builder()
                 .name(menuCreationDto.name())
                 .description(menuCreationDto.description())
-//                .menuItems(new HashSet<>())
+                .menuItems(new HashSet<>())
                 .build();
         menuCreationDto.menuItems().forEach(menu::addItem);
         return menuRepository.save(menu);

@@ -19,10 +19,11 @@ public class GlobalExceptionHandler {
             Exception e,
             HttpServletRequest request
     ) {
-        log.error(e.getMessage(), e);
+        String message = String.format("%s: %s", e.getClass().getSimpleName(), e.getMessage());
+        log.error(message);
         ErrorMessage errorMessage = new ErrorMessage(
                 request.getRequestURI(),
-                e.getMessage(),
+                message,
                 HttpStatus.INTERNAL_SERVER_ERROR,
                 LocalDateTime.now()
         );
