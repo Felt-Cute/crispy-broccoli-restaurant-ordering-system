@@ -2,13 +2,24 @@ package com.dcat23.cb.restaurantordering.menu.service;
 
 import com.dcat23.cb.restaurantordering.menu.dto.MenuCreationDto;
 import com.dcat23.cb.restaurantordering.menu.dto.MenuUpdateDto;
+import com.dcat23.cb.restaurantordering.menu.exception.MenuNotFoundException;
 import com.dcat23.cb.restaurantordering.menu.model.Menu;
+import com.dcat23.cb.restaurantordering.menu.repository.MenuRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public class MenuServiceImpl implements MenuService {
+
+    private MenuRepository menuRepository;
+
+    @Autowired
+    public MenuServiceImpl(MenuRepository menuRepository) {
+        this.menuRepository = menuRepository;
+    }
+
     /**
      * @param menuUpdateDto
      * @return
@@ -23,8 +34,10 @@ public class MenuServiceImpl implements MenuService {
      * @return
      */
     @Override
-    public Menu deleteMenu(String id) {
-        return null;
+    public Menu deleteMenu(Long id) {
+        Menu menu = this.getMenuById(id);
+        menuRepository.delete(menu);
+        return menu;
     }
 
     /**
@@ -33,7 +46,11 @@ public class MenuServiceImpl implements MenuService {
      */
     @Override
     public Menu createMenu(MenuCreationDto menuCreationDto) {
-        return null;
+        Menu menu = Menu.builder()
+                .name(menuCreationDto.name())
+                .description(menuCreationDto.description())
+                .build();
+        return menuRepository.save(menu);
     }
 
     /**
@@ -41,7 +58,7 @@ public class MenuServiceImpl implements MenuService {
      */
     @Override
     public List<Menu> getMenus() {
-        return List.of();
+        return menuRepository.findAll();
     }
 
     /**
@@ -49,7 +66,8 @@ public class MenuServiceImpl implements MenuService {
      * @return
      */
     @Override
-    public Menu getMenuById(String id) {
-        return null;
+    public Menu getMenuById(Long id) {
+        return menuRepository.findById(id)
+                .orElseThrow(() -> new MenuNotFoundException(id));
     }
 }

@@ -9,11 +9,11 @@ import java.util.List;
 public interface MenuService {
     List<Menu> getMenus();
 
-    Menu getMenuById(String id);
+    Menu getMenuById(Long id);
 
     Menu createMenu(MenuCreationDto menuCreationDto);
 
     Menu updateMenu(MenuUpdateDto menuUpdateDto);
 
-    Menu deleteMenu(String id);
+    Menu deleteMenu(Long id);
 }

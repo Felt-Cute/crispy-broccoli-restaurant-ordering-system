@@ -135,6 +135,33 @@ To run this project, you will need to add the following environment variables to
 
 ---
 
+## Implementation Steps
+- [] Set up Spring Boot project with necessary dependencies
+- [] Implement database models and repositories
+- [] Create RESTful API endpoints
+- [] Implement business logic in service layers
+- [] Set up Spring Security for authentication and authorization
+- [] Integrate Stripe API for payment processing
+- [] Implement WebSocket for real-time order updates
+- [] Develop React frontend components and pages
+- [] Integrate frontend with backend API
+- [] Implement admin dashboard for restaurant management
+- [] Add error handling and logging
+- [] Perform thorough testing (unit, integration, and end-to-end)
+- [] Deploy the application
+
+---
+## Todo
+- [] Implement caching for frequently accessed data (e.g., menus)
+- [] Use message queues for asynchronous processing of orders
+- [] Implement rate limiting to prevent API abuse
+- [] Add analytics to track popular menu items and peak ordering times
+- [] Implement a review and rating system for menu items
+- [] Add support for multiple languages and currencies
+- [] Implement a loyalty program for frequent customers
+
+---
+
 ## 🔗 Links
 [![portfolio](https://img.shields.io/badge/my_portfolio-000?style=for-the-badge&logo=ko-fi&logoColor=white)](https://dcatuns.vercel.app/)
 [![linkedin](https://img.shields.io/badge/linkedin-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/devin-catuns/)
