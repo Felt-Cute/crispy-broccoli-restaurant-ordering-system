@@ -17,7 +17,6 @@ public record MenuItemDto(
         @NotBlank(message = "Category must not be empty")
         String category,
 
-
         String imageUrl
 ) {
 }

@@ -41,8 +41,12 @@ public class MenuServiceImpl implements MenuService {
     }
 
     /**
-     * @param menuCreationDto
-     * @return
+     * Creates a new menu based on the provided menu creation details.
+     *
+     * @param menuCreationDto the data transfer object containing the details
+     *                        for creating a new menu, including the name,
+     *                        description, and items of the menu
+     * @return the created Menu object that has been saved to the repository
      */
     @Override
     public Menu createMenu(MenuCreationDto menuCreationDto) {
@@ -50,12 +54,12 @@ public class MenuServiceImpl implements MenuService {
                 .name(menuCreationDto.name())
                 .description(menuCreationDto.description())
                 .build();
-//        menuCreationDto.menuItems().forEach(menu::addItem);
+        menuCreationDto.menuItems().forEach(menu::addItem);
         return menuRepository.save(menu);
     }
 
     /**
-     * @return
+     * @return list of Menu objects that have been saved to the repository
      */
     @Override
     public List<Menu> getMenus() {
@@ -63,8 +67,9 @@ public class MenuServiceImpl implements MenuService {
     }
 
     /**
-     * @param id Menu ID
-     * @return
+     * @throws MenuNotFoundException if id is not found in repository
+     * @param id Menu id
+     * @return Menu object
      */
     @Override
     public Menu getMenuById(Long id) {
