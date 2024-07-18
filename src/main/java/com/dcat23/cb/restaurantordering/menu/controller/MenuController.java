@@ -33,13 +33,13 @@ public class MenuController {
         return ResponseEntity.ok(menu);
     }
 
-    @PostMapping()
+    @PostMapping("")
     public ResponseEntity<Menu> createMenu(@RequestBody MenuCreationDto menuCreationDto) {
         Menu menu = menuService.createMenu(menuCreationDto);
         return ResponseEntity.ok(menu);
     }
 
-    @PostMapping()
+    @PutMapping()
     public ResponseEntity<Menu> updateMenu(@RequestBody MenuUpdateDto menuUpdateDto) {
         Menu menu = menuService.updateMenu(menuUpdateDto);
         return ResponseEntity.ok(menu);

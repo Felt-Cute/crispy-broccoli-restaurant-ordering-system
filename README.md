@@ -75,7 +75,54 @@ API Gateway is set to port `8080` by default
 
 Services utilize [Spring-Doc]() for html documentation
 
+---
+## Database Schema
 
+### Users
+- id (PK)
+- username
+- email
+- password_hash
+- role (customer/staff/admin)
+
+### Menus
+- id (PK)
+- name
+- description
+
+### MenuItems
+- id (PK)
+- menu_id (FK)
+- name
+- description
+- price
+- category
+- image_url
+
+### Orders
+- id (PK)
+- user_id (FK)
+- status
+- total_amount
+- created_at
+- updated_at
+
+### OrderItems
+- id (PK)
+- order_id (FK)
+- menu_item_id (FK)
+- quantity
+- subtotal
+
+### Payments
+- id (PK)
+- order_id (FK)
+- amount
+- status
+- payment_method
+- transaction_id
+
+---
 ## Environment Variables
 
 To run this project, you will need to add the following environment variables to your .env file
