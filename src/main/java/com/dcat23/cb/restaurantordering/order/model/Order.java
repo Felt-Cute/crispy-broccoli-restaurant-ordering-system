@@ -8,6 +8,8 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 @Entity
@@ -31,13 +33,25 @@ public class Order {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
+    @OneToMany(mappedBy = "order",
+            orphanRemoval = true,
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY)
+    private Set<OrderItem> orderItems;
+
 //    @JsonIgnore
 //    @ManyToOne
 //    @JoinColumn(name = "user_id")
 //    private User user;
 
     public Order() {
+        orderItems = new HashSet<>();
         status = OrderStatus.PENDING;
         totalAmount = 0.0;
+    }
+
+    public void setOrderItems(Set<OrderItem> orderItems) {
+        orderItems.forEach(item -> item.setOrder(this));
+        this.orderItems = orderItems;
     }
 }

@@ -1,9 +1,11 @@
 package com.dcat23.cb.restaurantordering.order.service;
 
 import com.dcat23.cb.restaurantordering.order.dto.OrderCreationDto;
+import com.dcat23.cb.restaurantordering.order.dto.OrderItemDto;
 import com.dcat23.cb.restaurantordering.order.dto.OrderStatusUpdateDto;
 import com.dcat23.cb.restaurantordering.order.exception.OrderNotFoundException;
 import com.dcat23.cb.restaurantordering.order.model.Order;
+import com.dcat23.cb.restaurantordering.order.model.OrderItem;
 import com.dcat23.cb.restaurantordering.order.repository.OrderRepository;
 import com.dcat23.cb.restaurantordering.user.exception.UserNotFoundException;
 import com.dcat23.cb.restaurantordering.user.model.User.User;
@@ -13,6 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -34,9 +38,17 @@ public class OrderServiceImpl implements OrderService {
     public Order createOrder(OrderCreationDto orderDto) {
 //        User user = getUserByUserId(orderDto.userId());
         Order order = new Order();
+        Set<OrderItem> orderItems = orderDto.items().stream()
+                .map(this::createOrderItem)
+                .collect(Collectors.toSet());
 //        order.setUser(user);
+        order.setOrderItems(orderItems);
 
         return orderRepository.save(order);
+    }
+
+    private OrderItem createOrderItem(OrderItemDto orderItemDto) {
+        return null;
     }
 
     /**
