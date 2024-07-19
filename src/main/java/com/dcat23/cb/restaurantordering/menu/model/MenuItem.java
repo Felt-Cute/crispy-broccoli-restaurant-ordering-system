@@ -3,17 +3,11 @@ package com.dcat23.cb.restaurantordering.menu.model;
 import com.dcat23.cb.restaurantordering.menu.dto.MenuItemDto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.util.Objects;
 
 @Data
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table(name = "menu_items")
 public class MenuItem {
@@ -25,7 +19,7 @@ public class MenuItem {
     @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String description;
 
     @Column(nullable = false)
@@ -42,15 +36,16 @@ public class MenuItem {
     @JoinColumn(name = "menu_id")
     private Menu menu;
 
-    public static MenuItem of(MenuItemDto menuItemDto) {
+    public static MenuItem from(MenuItemDto menuItemDto) {
         Objects.requireNonNull(menuItemDto, "menuItemDto must not be null");
-        return builder()
-                .name(menuItemDto.name())
-                .description(menuItemDto.description())
-                .price(menuItemDto.price())
-                .category(menuItemDto.category())
-                .imageUrl(menuItemDto.imageUrl())
-                .build();
+        MenuItem menuItem = new MenuItem();
+        menuItem.setName(menuItemDto.name());
+        menuItem.setDescription(menuItemDto.description());
+        menuItem.setPrice(menuItemDto.price());
+        menuItem.setCategory(menuItemDto.category());
+        menuItem.setImageUrl(menuItemDto.imageUrl());
+        return menuItem;
+
     }
 
     @Override
@@ -70,5 +65,18 @@ public class MenuItem {
 
     public void setPrice(Double price) {
         this.price = Math.max(price, 0.0);
+    }
+
+    @Override
+    public String toString() {
+        return "MenuItem{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", price=" + price +
+                ", category='" + category + '\'' +
+                ", imageUrl='" + imageUrl + '\'' +
+                ", menuId=" + menu.getId() +
+                '}';
     }
 }
