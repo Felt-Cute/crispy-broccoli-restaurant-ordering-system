@@ -53,7 +53,7 @@ public class MenuServiceImpl implements MenuService {
      */
     @Override
     public Menu deleteMenu(Long id) {
-        Menu menu = this.getMenuById(id);
+        Menu menu = getMenuById(id);
         menuRepository.delete(menu);
         return menu;
     }
