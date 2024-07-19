@@ -1,10 +1,8 @@
 package com.dcat23.cb.restaurantordering.menu.service;
 
 import com.dcat23.cb.restaurantordering.menu.dto.MenuCreationDto;
-import com.dcat23.cb.restaurantordering.menu.dto.MenuItemDto;
 import com.dcat23.cb.restaurantordering.menu.dto.MenuUpdateDto;
 import com.dcat23.cb.restaurantordering.menu.model.Menu;
-import com.dcat23.cb.restaurantordering.menu.model.MenuItem;
 import com.dcat23.cb.restaurantordering.menu.repository.MenuRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -14,9 +12,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import java.util.HashSet;
 import java.util.Optional;
-import java.util.Set;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -49,7 +45,7 @@ class MenuServiceTest {
     @DisplayName("Create menu")
     void givenMenuCreationDto_whenCreate_thenMenuCreated() {
         /* Given - menu creation dto */
-        MenuCreationDto creationDto = getCreationDto();
+        MenuCreationDto creationDto = mock(MenuCreationDto.class);
 
         /* When - create */
         when(menuRepository.save(any(Menu.class)))
@@ -59,44 +55,6 @@ class MenuServiceTest {
         /* Then - menu created */
         assertThat(menu).isNotNull();
     }
-
-    private static MenuCreationDto getCreationDto() {
-        Set<MenuItemDto> menuItems = new HashSet<>();
-        MenuItemDto philly = new MenuItemDto(
-                "Philly Cheese Steak",
-                "Classic philly cheese steak",
-                11.99,
-                "Entrees",
-                ""
-        );
-
-        MenuItemDto pizza = new MenuItemDto(
-                "Peperoni pizza",
-                "Large pizza",
-                12.99,
-                "Entrees",
-                ""
-        );
-
-        MenuItemDto tea = new MenuItemDto(
-                "Sweet tea",
-                "sweet tea",
-                1.99,
-                "Beverages",
-                ""
-        );
-
-        menuItems.add(philly);
-        menuItems.add(pizza);
-        menuItems.add(tea);
-
-        return new MenuCreationDto(
-                "Test Menu",
-                "Super delicious menu",
-                menuItems
-        );
-    }
-
 
     @Test
     @DisplayName("Update menu")
