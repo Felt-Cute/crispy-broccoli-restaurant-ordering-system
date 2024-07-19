@@ -2,9 +2,11 @@ package com.dcat23.cb.restaurantordering.user.repository;
 
 import com.dcat23.cb.restaurantordering.user.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
+@Repository
 public interface UserRepository extends JpaRepository<User, Long> {
     boolean existsByUsername(String username);
 

@@ -52,23 +52,23 @@ docker compose up -d
 
 http://localhost:8181/swagger-ui.html
 
-### Menu API
+### [Menu API](http://localhost:8181/api/menus)
 - `GET /api/menus`
 - `GET /api/menus/{id}`
 - `POST /api/menus (admin)`
 - `PUT /api/menus/{id} (admin)`
 - `DELETE /api/menus/{id} (admin)`
-### Order API
+### [Order API](http://localhost:8181/api/orders)
 - `POST /api/orders`
 - `GET /api/orders/{id}`
 - `GET /api/orders/user/{userId}`
 - `PUT /api/orders/{id}/status (staff)`
-### User API
+### [User API](http://localhost:8181/api/users)
 - `POST /api/users/register`
 - `POST /api/users/login`
 - `GET /api/users/profile`
 - `PUT /api/users/profile`
-### Payment API
+### [Payment API](http://localhost:8181/api/payments)
 - `POST /api/payments`
 - `GET /api/payments/{orderId}`
 

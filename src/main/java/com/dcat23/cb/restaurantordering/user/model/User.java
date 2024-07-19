@@ -25,7 +25,7 @@ public class User {
     private String email;
 
     @JsonIgnore
-    @Column(nullable = false, name = "password_hash")
+    @Column(nullable = false, name = "pwd_hash")
     private String password;
 
     @Enumerated(EnumType.STRING)
