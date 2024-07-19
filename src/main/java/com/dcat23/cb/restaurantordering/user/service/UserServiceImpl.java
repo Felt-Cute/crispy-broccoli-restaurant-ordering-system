@@ -5,8 +5,10 @@ import com.dcat23.cb.restaurantordering.user.dto.UserRegistrationDto;
 import com.dcat23.cb.restaurantordering.user.dto.UserUpdateDto;
 import com.dcat23.cb.restaurantordering.user.exception.UserAlreadyExistsException;
 import com.dcat23.cb.restaurantordering.user.model.User;
+import com.dcat23.cb.restaurantordering.user.model.UserRole;
 import com.dcat23.cb.restaurantordering.user.repository.UserRepository;
 import jakarta.transaction.Transactional;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,9 +17,12 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserServiceImpl(UserRepository userRepository) {
+
+    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     /**
@@ -27,11 +32,18 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public User registerUser(UserRegistrationDto registrationDTO) {
-//        if (userRepository.existsByUsername(registrationDTO.username())) {
-//            throw new UserAlreadyExistsException("Username is already taken.");
-//        }
+        if (userRepository.existsByUsername(registrationDTO.username())) {
+            throw new UserAlreadyExistsException("Username is already taken.");
+        }
 
-        return null;
+        User user = new User();
+        user.setUsername(registrationDTO.username());
+        user.setEmail(registrationDTO.email());
+        user.setPassword(passwordEncoder.encode(registrationDTO.password()));
+        user.setRole(UserRole.CUSTOMER);
+
+        return userRepository.save(user);
+
     }
 
     /**

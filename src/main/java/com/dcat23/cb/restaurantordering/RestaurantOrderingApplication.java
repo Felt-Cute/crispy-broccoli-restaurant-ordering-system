@@ -4,6 +4,7 @@ import com.dcat23.cb.restaurantordering.menu.dto.MenuItemDto;
 import com.dcat23.cb.restaurantordering.menu.model.Menu;
 import com.dcat23.cb.restaurantordering.menu.repository.MenuRepository;
 import com.dcat23.cb.restaurantordering.user.model.User;
+import com.dcat23.cb.restaurantordering.user.model.UserRole;
 import com.dcat23.cb.restaurantordering.user.repository.UserRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -33,7 +34,12 @@ public class RestaurantOrderingApplication {
     }
 
     private User createUser() {
-        return new User();
+        User user = new User();
+        user.setUsername("dcat");
+        user.setPassword("super - secret ");
+        user.setEmail("dcat@dcat.com");
+        user.setRole(UserRole.ADMIN);
+        return user;
     }
 
     private Menu initMenu() {

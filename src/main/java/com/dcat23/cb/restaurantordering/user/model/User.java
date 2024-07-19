@@ -1,6 +1,7 @@
 package com.dcat23.cb.restaurantordering.user.model;
 
 import com.dcat23.cb.restaurantordering.order.model.Order;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -22,14 +23,23 @@ public class User {
     @Column(nullable = false)
     private String email;
 
+    @JsonIgnore
     @Column(nullable = false, name = "password_hash")
-    private String passwordHash;
+    private String password;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private UserRole role;
 
     @OneToMany(mappedBy = "user",
             cascade = CascadeType.DETACH,
             fetch = FetchType.LAZY
     )
     private Set<Order> orders = new HashSet<>();
+
+    public User() {
+        role = UserRole.CUSTOMER;
+    }
 
     public void addOrder(Order order) {
         orders.add(order);
