@@ -5,6 +5,7 @@ import com.dcat23.cb.restaurantordering.menu.model.MenuItem;
 import com.dcat23.cb.restaurantordering.menu.repository.MenuItemRepository;
 import com.dcat23.cb.restaurantordering.order.dto.OrderCreationDto;
 import com.dcat23.cb.restaurantordering.order.model.Order;
+import com.dcat23.cb.restaurantordering.order.model.OrderStatus;
 import com.dcat23.cb.restaurantordering.order.repository.OrderRepository;
 import com.dcat23.cb.restaurantordering.user.model.User.User;
 import com.dcat23.cb.restaurantordering.user.repository.UserRepository;
@@ -19,6 +20,7 @@ import org.mockito.MockitoAnnotations;
 
 import java.util.Optional;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.mock;
@@ -68,7 +70,31 @@ class OrderServiceTest {
         Order order = orderService.createOrder(creationDto);
 
         /* Then - return order object */
-        Assertions.assertThat(order).isNotNull();
+        assertThat(order).isNotNull();
+    }
+
+
+    @Test
+    @DisplayName("Update order status")
+    void givenIdAndStatus_whenUpdate_thenSuccess() {
+        /* Given - id and status */
+        OrderStatus updateToStatus = OrderStatus.PREPARING;
+        Long orderId = 1L;
+        Order order = new Order();
+        order.setId(orderId);
+
+        /* When - update */
+        when(orderRepository.findById(anyLong()))
+            .thenReturn(Optional.of(order));
+
+        when(orderRepository.save(any(Order.class)))
+                .thenReturn(mock(Order.class));
+
+        Order actual = orderService.updateOrderStatus(orderId, updateToStatus);
+
+        /* Then - success */
+        assertThat(actual).isNotNull();
+        assertThat(actual.getStatus()).isEqualTo(updateToStatus);
     }
 
 

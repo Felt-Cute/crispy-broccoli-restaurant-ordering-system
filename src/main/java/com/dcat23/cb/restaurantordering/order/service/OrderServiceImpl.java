@@ -106,7 +106,8 @@ public class OrderServiceImpl implements OrderService {
         }
 
         order.setStatus(statusUpdate);
-        return orderRepository.save(order);
+        orderRepository.save(order);
+        return order;
     }
 
     private boolean isValidStatusTransition(OrderStatus current, OrderStatus updateTo) {
