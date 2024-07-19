@@ -62,12 +62,17 @@ public class Order {
                 .sum();
     }
 
+    public Long getUserId() {
+        return user == null ? -1 : user.getId();
+    }
+
     @Override
     public String toString() {
         return "Order{" +
                 "id=" + id +
                 ", status=" + status +
                 ", totalAmount=" + getTotalAmount() +
+                ", userId=" + getUserId() +
                 ", createdAt=" + createdAt +
                 ", updatedAt=" + updatedAt +
                 ", orderItems=" + orderItems +
