@@ -41,7 +41,7 @@ Copy environment variables
 cp .env.example .env
 ```
 
-Start the server
+Start the database
 
 ```bash
 docker compose up -d
@@ -178,12 +178,6 @@ Whether you use this project, have learned something from it, or just like it, p
 
 ## Acknowledgements
 
-
----
-
-## Documentation
-
-[Documentation](https://linktodocumentation)
 
 ---
 

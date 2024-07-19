@@ -1,5 +1,7 @@
 package com.dcat23.cb.restaurantordering.core.exception;
 
+import com.dcat23.cb.restaurantordering.menu.exception.MenuNotFoundException;
+import com.dcat23.cb.restaurantordering.order.exception.InvalidStatusTransitionException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -55,4 +57,35 @@ public class GlobalExceptionHandler {
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage);
     }
+
+    @ExceptionHandler(MenuNotFoundException.class)
+    public ResponseEntity<ErrorMessage> menuNotFoundExceptionHandler(
+            MenuNotFoundException e,
+            HttpServletRequest request
+    ) {
+        ErrorMessage errorMessage = new ErrorMessage(
+                request.getRequestURI(),
+                e.getMessage(),
+                HttpStatus.NOT_FOUND,
+                LocalDateTime.now()
+        );
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorMessage);
+    }
+
+    @ExceptionHandler(InvalidStatusTransitionException.class)
+    public ResponseEntity<ErrorMessage> invalidStatusTransitionExceptionExceptionHandler(
+            InvalidStatusTransitionException e,
+            HttpServletRequest request
+    ) {
+        ErrorMessage errorMessage = new ErrorMessage(
+                request.getRequestURI(),
+                e.getMessage(),
+                HttpStatus.BAD_REQUEST,
+                LocalDateTime.now()
+        );
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage);
+    }
+
 }

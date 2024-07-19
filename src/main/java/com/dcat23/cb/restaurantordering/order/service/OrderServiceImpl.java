@@ -64,6 +64,7 @@ public class OrderServiceImpl implements OrderService {
 
     /**
      * @param id the Order id
+     * @throws OrderNotFoundException if order with id is not found in repository
      * @return the Order object if it exists in the repository
      */
     @Override
@@ -97,6 +98,8 @@ public class OrderServiceImpl implements OrderService {
     @Transactional
     public Order updateOrderStatus(Long id, OrderStatus statusUpdate) {
         Order order = getOrderById(id);
+
+        if (order.getStatus().equals(statusUpdate)) return order;
 
         if (!isValidStatusTransition(order.getStatus(), statusUpdate)) {
             throw new InvalidStatusTransitionException(order.getStatus(), statusUpdate );
