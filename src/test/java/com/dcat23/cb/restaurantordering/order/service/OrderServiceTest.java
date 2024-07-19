@@ -1,15 +1,13 @@
 package com.dcat23.cb.restaurantordering.order.service;
 
-import com.dcat23.cb.restaurantordering.menu.model.Menu;
 import com.dcat23.cb.restaurantordering.menu.model.MenuItem;
 import com.dcat23.cb.restaurantordering.menu.repository.MenuItemRepository;
 import com.dcat23.cb.restaurantordering.order.dto.OrderCreationDto;
 import com.dcat23.cb.restaurantordering.order.model.Order;
 import com.dcat23.cb.restaurantordering.order.model.OrderStatus;
 import com.dcat23.cb.restaurantordering.order.repository.OrderRepository;
-import com.dcat23.cb.restaurantordering.user.model.User.User;
+import com.dcat23.cb.restaurantordering.user.model.User;
 import com.dcat23.cb.restaurantordering.user.repository.UserRepository;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

@@ -3,7 +3,7 @@ package com.dcat23.cb.restaurantordering;
 import com.dcat23.cb.restaurantordering.menu.dto.MenuItemDto;
 import com.dcat23.cb.restaurantordering.menu.model.Menu;
 import com.dcat23.cb.restaurantordering.menu.repository.MenuRepository;
-import com.dcat23.cb.restaurantordering.user.model.User.User;
+import com.dcat23.cb.restaurantordering.user.model.User;
 import com.dcat23.cb.restaurantordering.user.repository.UserRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;

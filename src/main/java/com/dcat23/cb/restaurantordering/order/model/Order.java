@@ -1,6 +1,6 @@
 package com.dcat23.cb.restaurantordering.order.model;
 
-import com.dcat23.cb.restaurantordering.user.model.User.User;
+import com.dcat23.cb.restaurantordering.user.model.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;

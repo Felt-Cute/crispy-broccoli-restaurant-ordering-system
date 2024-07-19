@@ -12,7 +12,7 @@ import com.dcat23.cb.restaurantordering.order.model.OrderItem;
 import com.dcat23.cb.restaurantordering.order.model.OrderStatus;
 import com.dcat23.cb.restaurantordering.order.repository.OrderRepository;
 import com.dcat23.cb.restaurantordering.user.exception.UserNotFoundException;
-import com.dcat23.cb.restaurantordering.user.model.User.User;
+import com.dcat23.cb.restaurantordering.user.model.User;
 import com.dcat23.cb.restaurantordering.user.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;

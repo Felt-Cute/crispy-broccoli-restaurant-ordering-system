@@ -1,4 +1,4 @@
-package com.dcat23.cb.restaurantordering.user.model.User;
+package com.dcat23.cb.restaurantordering.user.model;
 
 import com.dcat23.cb.restaurantordering.order.model.Order;
 import jakarta.persistence.*;
