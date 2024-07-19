@@ -24,8 +24,8 @@ public class Order {
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
 
-    @Column(nullable = false, name = "total_amount")
-    private Double totalAmount;
+//    @Transient
+//    private Double totalAmount;
 
     @CreationTimestamp
     private LocalDateTime createdAt;
@@ -36,7 +36,8 @@ public class Order {
     @OneToMany(mappedBy = "order",
             orphanRemoval = true,
             cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY)
+            fetch = FetchType.LAZY
+    )
     private Set<OrderItem> orderItems;
 
 //    @JsonIgnore
@@ -47,11 +48,34 @@ public class Order {
     public Order() {
         orderItems = new HashSet<>();
         status = OrderStatus.PENDING;
-        totalAmount = 0.0;
     }
 
     public void setOrderItems(Set<OrderItem> orderItems) {
-        orderItems.forEach(item -> item.setOrder(this));
+        this.orderItems.clear();
+        orderItems.forEach(this::addItem);
         this.orderItems = orderItems;
+    }
+
+    public void addItem(OrderItem orderItem) {
+        orderItems.add(orderItem);
+        orderItem.setOrder(this);
+
+    }
+
+    public Double getTotalAmount() {
+        return orderItems.stream()
+                .mapToDouble(OrderItem::getSubTotal)
+                .sum();
+    }
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "id=" + id +
+                ", status=" + status +
+                ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
+                ", orderItems=" + orderItems +
+                '}';
     }
 }

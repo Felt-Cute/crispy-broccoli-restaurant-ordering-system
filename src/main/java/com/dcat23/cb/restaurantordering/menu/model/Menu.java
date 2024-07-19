@@ -36,10 +36,8 @@ public class Menu {
     }
 
     public void addMenuItem(MenuItemDto menuItemDto) {
-        if (menuItems == null) {
-            menuItems = new HashSet<>();
-        }
-        MenuItem menuItem = MenuItem.of(menuItemDto);
+
+        MenuItem menuItem = MenuItem.from(menuItemDto);
         menuItem.setMenu(this);
         menuItems.remove(menuItem);
         menuItems.add(menuItem);
@@ -53,4 +51,5 @@ public class Menu {
         menuItems.clear();
         addAllMenuItems(menuItemDtos);
     }
+
 }

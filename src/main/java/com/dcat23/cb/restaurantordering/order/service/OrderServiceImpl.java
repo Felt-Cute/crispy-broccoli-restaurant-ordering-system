@@ -14,6 +14,8 @@ import com.dcat23.cb.restaurantordering.user.exception.UserNotFoundException;
 import com.dcat23.cb.restaurantordering.user.model.User.User;
 import com.dcat23.cb.restaurantordering.user.repository.UserRepository;
 import jakarta.transaction.Transactional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +26,7 @@ import java.util.stream.Collectors;
 @Service
 public class OrderServiceImpl implements OrderService {
 
+    private static final Logger log = LoggerFactory.getLogger(OrderServiceImpl.class);
     private final OrderRepository orderRepository;
     private final MenuItemRepository menuItemRepository;
 //    private final UserRepository userRepository;
@@ -43,12 +46,12 @@ public class OrderServiceImpl implements OrderService {
     public Order createOrder(OrderCreationDto orderDto) {
 //        User user = getUserByUserId(orderDto.userId());
         Order order = new Order();
-        Set<OrderItem> orderItems = orderDto.items().stream()
+        orderDto.items().stream()
                 .map(this::createOrderItem)
-                .collect(Collectors.toSet());
+                .forEach(order::addItem);
 //        order.setUser(user);
-        order.setOrderItems(orderItems);
 
+        log.info(order.toString());
         return orderRepository.save(order);
     }
 
