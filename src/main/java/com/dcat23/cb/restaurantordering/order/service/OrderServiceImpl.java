@@ -29,12 +29,13 @@ public class OrderServiceImpl implements OrderService {
     private static final Logger log = LoggerFactory.getLogger(OrderServiceImpl.class);
     private final OrderRepository orderRepository;
     private final MenuItemRepository menuItemRepository;
-//    private final UserRepository userRepository;
+    private final UserRepository userRepository;
 
     @Autowired
-    public OrderServiceImpl(OrderRepository orderRepository, MenuItemRepository menuItemRepository) {
+    public OrderServiceImpl(OrderRepository orderRepository, MenuItemRepository menuItemRepository, UserRepository userRepository) {
         this.orderRepository = orderRepository;
         this.menuItemRepository = menuItemRepository;
+        this.userRepository = userRepository;
     }
 
     /**
@@ -44,14 +45,13 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional
     public Order createOrder(OrderCreationDto orderDto) {
-//        User user = getUserByUserId(orderDto.userId());
+        User user = getUserByUserId(orderDto.userId());
         Order order = new Order();
         orderDto.items().stream()
                 .map(this::createOrderItem)
                 .forEach(order::addItem);
-//        order.setUser(user);
+        order.setUser(user);
 
-        log.info(order.toString());
         return orderRepository.save(order);
     }
 
@@ -82,15 +82,15 @@ public class OrderServiceImpl implements OrderService {
      */
     @Override
     public List<Order> getOrdersByUser(Long userId) {
-//        User user = getUserByUserId(userId);
+        User user = getUserByUserId(userId);
 
         return List.of();
     }
 
-//    private User getUserByUserId(Long userId) {
-//        return userRepository.findById(userId)
-//                .orElseThrow(() -> new UserNotFoundException(userId));
-//    }
+    private User getUserByUserId(Long userId) {
+        return userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException(userId));
+    }
 
     /**
      * @param id

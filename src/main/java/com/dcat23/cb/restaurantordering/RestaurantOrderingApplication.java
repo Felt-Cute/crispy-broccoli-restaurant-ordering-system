@@ -3,6 +3,8 @@ package com.dcat23.cb.restaurantordering;
 import com.dcat23.cb.restaurantordering.menu.dto.MenuItemDto;
 import com.dcat23.cb.restaurantordering.menu.model.Menu;
 import com.dcat23.cb.restaurantordering.menu.repository.MenuRepository;
+import com.dcat23.cb.restaurantordering.user.model.User.User;
+import com.dcat23.cb.restaurantordering.user.repository.UserRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -19,12 +21,19 @@ public class RestaurantOrderingApplication {
     }
 
     @Bean
-    public CommandLineRunner runner(MenuRepository menuRepository) {
+    public CommandLineRunner runner(MenuRepository menuRepository, UserRepository userRepository) {
         return args -> {
             Menu initialMenu = initMenu();
             menuRepository.save(initialMenu);
 
+            User user = createUser();
+            userRepository.save(user);
+
         };
+    }
+
+    private User createUser() {
+        return new User();
     }
 
     private Menu initMenu() {

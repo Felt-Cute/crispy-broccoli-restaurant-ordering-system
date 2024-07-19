@@ -31,27 +31,31 @@ public class OrderItem {
     @JoinColumn(name = "order_id")
     private Order order;
 
-//    @Transient
-//    private Double subTotal;
-
     public OrderItem() {
         quantity = MIN_QUANTITY;
-    }
-
-    public Double getSubTotal() {
-        return quantity * menuItem.getPrice();
     }
 
     public void setQuantity(Integer quantity) {
         this.quantity = Math.max(quantity, MIN_QUANTITY);
     }
 
+    public String getName() {
+        return menuItem.getName();
+    }
+
+    public Long getOrderId() {
+        return order == null ? null : order.getId();
+    }
+
+    public Double getSubTotal() {
+        return quantity * menuItem.getPrice();
+    }
+
     @Override
     public String toString() {
-        Long orderId = order == null ? null: order.getId();
         return "OrderItem{" +
-                "orderId=" + orderId +
-                ", name=" + menuItem.getName() +
+                "orderId=" + getOrderId() +
+                ", name=" + getName() +
                 ", quantity=" + quantity +
                 ", subTotal=" + getSubTotal() +
                 ", id=" + id +
@@ -63,16 +67,14 @@ public class OrderItem {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         OrderItem orderItem = (OrderItem) o;
-        Long orderId = order == null ? null: order.getId();
         return Objects.equals(id, orderItem.id)
                 && Objects.equals(quantity, orderItem.quantity)
                 && Objects.equals(menuItem.getId(), orderItem.menuItem.getId())
-                && Objects.equals(orderId, orderItem.order.getId());
+                && Objects.equals(getOrderId(), orderItem.order.getId());
     }
 
     @Override
     public int hashCode() {
-        Long orderId = order == null ? null : order.getId();
-        return Objects.hash(id, quantity, menuItem.getId(), orderId);
+        return Objects.hash(id, quantity, menuItem.getId(), getOrderId());
     }
 }

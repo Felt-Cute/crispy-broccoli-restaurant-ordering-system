@@ -24,9 +24,6 @@ public class Order {
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
 
-//    @Transient
-//    private Double totalAmount;
-
     @CreationTimestamp
     private LocalDateTime createdAt;
 
@@ -38,28 +35,25 @@ public class Order {
             cascade = CascadeType.ALL,
             fetch = FetchType.LAZY
     )
-    private Set<OrderItem> orderItems;
+    private Set<OrderItem> orderItems = new HashSet<>();
 
-//    @JsonIgnore
-//    @ManyToOne
-//    @JoinColumn(name = "user_id")
-//    private User user;
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
     public Order() {
-        orderItems = new HashSet<>();
         status = OrderStatus.PENDING;
     }
 
     public void setOrderItems(Set<OrderItem> orderItems) {
         this.orderItems.clear();
         orderItems.forEach(this::addItem);
-        this.orderItems = orderItems;
     }
 
     public void addItem(OrderItem orderItem) {
         orderItems.add(orderItem);
         orderItem.setOrder(this);
-
     }
 
     public Double getTotalAmount() {
@@ -73,6 +67,7 @@ public class Order {
         return "Order{" +
                 "id=" + id +
                 ", status=" + status +
+                ", totalAmount=" + getTotalAmount() +
                 ", createdAt=" + createdAt +
                 ", updatedAt=" + updatedAt +
                 ", orderItems=" + orderItems +
