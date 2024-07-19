@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/api/orders")
@@ -40,8 +41,8 @@ public class OrderController {
     }
 
     @GetMapping("/user/{user-id}")
-    public ResponseEntity<List<Order>> getOrdersByUser(@PathVariable(name = "user-id") Long id) {
-        List<Order> orders = orderService.getOrdersByUser(id);
+    public ResponseEntity<Set<Order>> getOrdersByUser(@PathVariable(name = "user-id") Long id) {
+        Set<Order> orders = orderService.getOrdersByUser(id);
         return ResponseEntity.ok(orders);
     }
 

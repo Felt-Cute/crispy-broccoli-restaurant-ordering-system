@@ -23,9 +23,9 @@ public class MenuServiceImpl implements MenuService {
     }
 
     /**
-     * @param id
-     * @param menuUpdateDto
-     * @return
+     * @param id Menu id
+     * @param menuUpdateDto DTO for Menu fields
+     * @return updated Menu object
      */
     @Override
     public Menu updateMenu(Long id, MenuUpdateDto menuUpdateDto) {
@@ -48,8 +48,8 @@ public class MenuServiceImpl implements MenuService {
     }
 
     /**
-     * @param id Menu ID
-     * @return
+     * @param id Menu id
+     * @return the removed Menu object
      */
     @Override
     public Menu deleteMenu(Long id) {

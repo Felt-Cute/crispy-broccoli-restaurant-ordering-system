@@ -9,6 +9,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Data
@@ -77,5 +78,23 @@ public class Order {
                 ", updatedAt=" + updatedAt +
                 ", orderItems=" + orderItems +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Order order = (Order) o;
+        return Objects.equals(id, order.id)
+                && status == order.status
+                && Objects.equals(createdAt, order.createdAt)
+                && Objects.equals(updatedAt, order.updatedAt)
+                && Objects.equals(orderItems, order.orderItems)
+                && Objects.equals(getUserId(), order.user.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, status, createdAt, updatedAt, orderItems, getUserId());
     }
 }

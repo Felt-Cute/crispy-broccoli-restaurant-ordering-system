@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -41,12 +42,13 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional
     public Order createOrder(OrderCreationDto orderDto) {
-        User user = getUserByUserId(orderDto.userId());
         Order order = new Order();
         orderDto.items().stream()
                 .map(this::createOrderItem)
                 .forEach(order::addItem);
-        order.setUser(user);
+
+        User user = getUserByUserId(orderDto.userId());
+        user.addOrder(order);
 
         return orderRepository.save(order);
     }
@@ -78,10 +80,10 @@ public class OrderServiceImpl implements OrderService {
      * @return orders by the user
      */
     @Override
-    public List<Order> getOrdersByUser(Long userId) {
+    public Set<Order> getOrdersByUser(Long userId) {
         User user = getUserByUserId(userId);
 
-        return List.of();
+        return user.getOrders();
     }
 
     private User getUserByUserId(Long userId) {
