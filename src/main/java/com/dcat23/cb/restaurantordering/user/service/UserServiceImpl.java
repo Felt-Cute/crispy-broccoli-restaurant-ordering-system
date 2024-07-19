@@ -1,9 +1,11 @@
 package com.dcat23.cb.restaurantordering.user.service;
 
+import com.dcat23.cb.restaurantordering.core.utils.Sanitize;
 import com.dcat23.cb.restaurantordering.user.dto.UserLoginDto;
 import com.dcat23.cb.restaurantordering.user.dto.UserRegistrationDto;
 import com.dcat23.cb.restaurantordering.user.dto.UserUpdateDto;
 import com.dcat23.cb.restaurantordering.user.exception.UserAlreadyExistsException;
+import com.dcat23.cb.restaurantordering.user.exception.UserNotFoundException;
 import com.dcat23.cb.restaurantordering.user.model.User;
 import com.dcat23.cb.restaurantordering.user.model.UserRole;
 import com.dcat23.cb.restaurantordering.user.repository.UserRepository;
@@ -56,18 +58,21 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
-     * @param authentication
-     * @return
+     * @param username to check repository for
+     * @throws UserNotFoundException if not found
+     * @return User entity from repository
      */
     @Override
-    public User getUserByUsername(String authentication) {
-        return null;
+    public User getUserByUsername(String username) {
+        String lowerCasedName = Sanitize.lower(username);
+        return userRepository.findByUsername(lowerCasedName)
+                .orElseThrow(() -> new UserNotFoundException(lowerCasedName));
     }
 
     /**
-     * @param username
-     * @param updateDto
-     * @return
+     * @param username of User to update
+     * @param updateDto fields to change
+     * @return the updated User object
      */
     @Override
     public User updateUser(String username, UserUpdateDto updateDto) {

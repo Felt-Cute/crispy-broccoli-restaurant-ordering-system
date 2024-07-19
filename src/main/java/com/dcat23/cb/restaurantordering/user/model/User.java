@@ -1,5 +1,6 @@
 package com.dcat23.cb.restaurantordering.user.model;
 
+import com.dcat23.cb.restaurantordering.core.utils.Sanitize;
 import com.dcat23.cb.restaurantordering.order.model.Order;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
@@ -44,5 +45,13 @@ public class User {
     public void addOrder(Order order) {
         orders.add(order);
         order.setUser(this);
+    }
+
+    public void setUsername(String username) {
+        this.username = Sanitize.lower(username);
+    }
+
+    public void setEmail(String email) {
+        this.email = Sanitize.lower(email);
     }
 }
