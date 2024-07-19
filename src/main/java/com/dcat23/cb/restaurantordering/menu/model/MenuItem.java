@@ -60,13 +60,11 @@ public class MenuItem {
         MenuItem menuItem = (MenuItem) o;
         return Objects.equals(name, menuItem.name)
                 && Objects.equals(description, menuItem.description)
-                && Objects.equals(price, menuItem.price)
-                && Objects.equals(category, menuItem.category)
-                && Objects.equals(imageUrl, menuItem.imageUrl);
+                && Objects.equals(category, menuItem.category);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, description, price, category, imageUrl);
+        return Objects.hash(name, description, category);
     }
 }

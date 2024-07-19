@@ -25,6 +25,7 @@ public class Menu {
     private String description;
 
     @OneToMany(mappedBy = "menu",
+            orphanRemoval = true,
             cascade = CascadeType.ALL,
             fetch = FetchType.EAGER)
     private Set<MenuItem> menuItems;
@@ -40,10 +41,16 @@ public class Menu {
         }
         MenuItem menuItem = MenuItem.of(menuItemDto);
         menuItem.setMenu(this);
+        menuItems.remove(menuItem);
         menuItems.add(menuItem);
     }
 
     public void addAllMenuItems(Set<MenuItemDto> menuItemDtos) {
         menuItemDtos.forEach(this::addMenuItem);
+    }
+
+    public void setMenuItems(Set<MenuItemDto> menuItemDtos) {
+        menuItems.clear();
+        addAllMenuItems(menuItemDtos);
     }
 }

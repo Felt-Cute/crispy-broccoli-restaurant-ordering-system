@@ -5,11 +5,13 @@ import com.dcat23.cb.restaurantordering.menu.dto.MenuUpdateDto;
 import com.dcat23.cb.restaurantordering.menu.exception.MenuNotFoundException;
 import com.dcat23.cb.restaurantordering.menu.model.Menu;
 import com.dcat23.cb.restaurantordering.menu.repository.MenuRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Slf4j
 @Service
 public class MenuServiceImpl implements MenuService {
 
@@ -37,8 +39,9 @@ public class MenuServiceImpl implements MenuService {
             menu.setDescription(menuUpdateDto.description());
         }
 
-        if (menuUpdateDto.menuItems() != null && !menuUpdateDto.menuItems().isEmpty()) {
-            menu.addAllMenuItems(menuUpdateDto.menuItems());
+        if (menuUpdateDto.menuItems() != null)
+        {
+            menu.setMenuItems(menuUpdateDto.menuItems());
         }
 
         return menuRepository.save(menu);
@@ -71,6 +74,7 @@ public class MenuServiceImpl implements MenuService {
         menu.addAllMenuItems(menuCreationDto.menuItems());
         return menuRepository.save(menu);
     }
+    
 
     /**
      * @return list of Menu objects that have been saved to the repository
