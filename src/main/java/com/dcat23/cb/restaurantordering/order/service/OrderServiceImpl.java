@@ -1,5 +1,8 @@
 package com.dcat23.cb.restaurantordering.order.service;
 
+import com.dcat23.cb.restaurantordering.menu.exception.MenuItemNotFoundException;
+import com.dcat23.cb.restaurantordering.menu.model.MenuItem;
+import com.dcat23.cb.restaurantordering.menu.repository.MenuItemRepository;
 import com.dcat23.cb.restaurantordering.order.dto.OrderCreationDto;
 import com.dcat23.cb.restaurantordering.order.dto.OrderItemDto;
 import com.dcat23.cb.restaurantordering.order.dto.OrderStatusUpdateDto;
@@ -22,11 +25,13 @@ import java.util.stream.Collectors;
 public class OrderServiceImpl implements OrderService {
 
     private final OrderRepository orderRepository;
+    private final MenuItemRepository menuItemRepository;
 //    private final UserRepository userRepository;
 
     @Autowired
-    public OrderServiceImpl(OrderRepository orderRepository) {
+    public OrderServiceImpl(OrderRepository orderRepository, MenuItemRepository menuItemRepository) {
         this.orderRepository = orderRepository;
+        this.menuItemRepository = menuItemRepository;
     }
 
     /**
@@ -48,6 +53,8 @@ public class OrderServiceImpl implements OrderService {
     }
 
     private OrderItem createOrderItem(OrderItemDto orderItemDto) {
+        MenuItem menuItem = menuItemRepository.findById(orderItemDto.menuItemId())
+                .orElseThrow(() -> new MenuItemNotFoundException(orderItemDto.menuItemId()));
         return null;
     }
 
