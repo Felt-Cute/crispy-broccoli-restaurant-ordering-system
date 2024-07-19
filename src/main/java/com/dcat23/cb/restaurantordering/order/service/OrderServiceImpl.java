@@ -5,17 +5,16 @@ import com.dcat23.cb.restaurantordering.menu.model.MenuItem;
 import com.dcat23.cb.restaurantordering.menu.repository.MenuItemRepository;
 import com.dcat23.cb.restaurantordering.order.dto.OrderCreationDto;
 import com.dcat23.cb.restaurantordering.order.dto.OrderItemDto;
-import com.dcat23.cb.restaurantordering.order.dto.OrderStatusUpdateDto;
+import com.dcat23.cb.restaurantordering.order.exception.InvalidStatusTransitionException;
 import com.dcat23.cb.restaurantordering.order.exception.OrderNotFoundException;
 import com.dcat23.cb.restaurantordering.order.model.Order;
 import com.dcat23.cb.restaurantordering.order.model.OrderItem;
+import com.dcat23.cb.restaurantordering.order.model.OrderStatus;
 import com.dcat23.cb.restaurantordering.order.repository.OrderRepository;
 import com.dcat23.cb.restaurantordering.user.exception.UserNotFoundException;
 import com.dcat23.cb.restaurantordering.user.model.User.User;
 import com.dcat23.cb.restaurantordering.user.repository.UserRepository;
 import jakarta.transaction.Transactional;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +23,6 @@ import java.util.List;
 @Service
 public class OrderServiceImpl implements OrderService {
 
-    private static final Logger log = LoggerFactory.getLogger(OrderServiceImpl.class);
     private final OrderRepository orderRepository;
     private final MenuItemRepository menuItemRepository;
     private final UserRepository userRepository;
@@ -37,8 +35,8 @@ public class OrderServiceImpl implements OrderService {
     }
 
     /**
-     * @param orderDto
-     * @return
+     * @param orderDto initial order data DTO
+     * @return newly created Order
      */
     @Override
     @Transactional
@@ -65,8 +63,8 @@ public class OrderServiceImpl implements OrderService {
     }
 
     /**
-     * @param id
-     * @return
+     * @param id the Order id
+     * @return the Order object if it exists in the repository
      */
     @Override
     public Order getOrderById(Long id) {
@@ -75,8 +73,8 @@ public class OrderServiceImpl implements OrderService {
     }
 
     /**
-     * @param userId
-     * @return
+     * @param userId the id of the User object
+     * @return orders by the user
      */
     @Override
     public List<Order> getOrdersByUser(Long userId) {
@@ -91,14 +89,30 @@ public class OrderServiceImpl implements OrderService {
     }
 
     /**
-     * @param id
-     * @param statusUpdate
-     * @return
+     * @param id the Order id
+     * @param statusUpdate DTO object with OrderStatus enum
+     * @return the Order with updated status
      */
     @Override
-    public Order updateOrderStatus(Long id, OrderStatusUpdateDto statusUpdate) {
+    @Transactional
+    public Order updateOrderStatus(Long id, OrderStatus statusUpdate) {
+        Order order = getOrderById(id);
 
-        return null;
+        if (!isValidStatusTransition(order.getStatus(), statusUpdate)) {
+            throw new InvalidStatusTransitionException(order.getStatus(), statusUpdate );
+        }
+
+        order.setStatus(statusUpdate);
+        return orderRepository.save(order);
+    }
+
+    private boolean isValidStatusTransition(OrderStatus current, OrderStatus updateTo) {
+        return switch (current) {
+            case PENDING -> updateTo == OrderStatus.PREPARING || updateTo == OrderStatus.CANCELLED;
+            case PREPARING -> updateTo == OrderStatus.READY || updateTo == OrderStatus.CANCELLED;
+            case READY -> updateTo == OrderStatus.DELIVERED;
+            default -> false;
+        };
     }
 
     @Override

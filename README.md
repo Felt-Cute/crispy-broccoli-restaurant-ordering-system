@@ -50,8 +50,7 @@ docker compose up -d
 
 ## API Reference
 
-API Gateway is set to port `8181` by default
-`http://localhost:8181/`
+http://localhost:8181/swagger-ui.html
 
 ### Menu API
 - `GET /api/menus`

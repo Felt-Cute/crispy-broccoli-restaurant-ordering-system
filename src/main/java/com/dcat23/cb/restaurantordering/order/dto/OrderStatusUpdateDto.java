@@ -1,4 +1,8 @@
 package com.dcat23.cb.restaurantordering.order.dto;
 
-public record OrderStatusUpdateDto() {
+import com.dcat23.cb.restaurantordering.order.model.OrderStatus;
+
+public record OrderStatusUpdateDto(
+        OrderStatus status
+) {
 }

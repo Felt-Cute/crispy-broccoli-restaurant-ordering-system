@@ -1,9 +1,7 @@
-package com.dcat23.cb.restaurantordering.menu.exception;
+package com.dcat23.cb.restaurantordering.core.exception;
 
-import com.dcat23.cb.restaurantordering.core.exception.ErrorMessage;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.ObjectError;
@@ -12,7 +10,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -34,21 +31,6 @@ public class GlobalExceptionHandler {
         );
 
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorMessage);
-    }
-
-    @ExceptionHandler(MenuNotFoundException.class)
-    public ResponseEntity<ErrorMessage> menuNotFoundExceptionHandler(
-            MenuNotFoundException e,
-            HttpServletRequest request
-    ) {
-        ErrorMessage errorMessage = new ErrorMessage(
-                request.getRequestURI(),
-                e.getMessage(),
-                HttpStatus.NOT_FOUND,
-                LocalDateTime.now()
-        );
-
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorMessage);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)

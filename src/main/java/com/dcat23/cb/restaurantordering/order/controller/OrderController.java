@@ -46,8 +46,8 @@ public class OrderController {
     }
 
     @PutMapping("/{id}/status")
-    public ResponseEntity<?> updateOrderStatus(@PathVariable Long id, @RequestBody OrderStatusUpdateDto statusUpdate) {
-        Order order = orderService.updateOrderStatus(id, statusUpdate);
+    public ResponseEntity<?> updateOrderStatus(@PathVariable Long id, @RequestBody OrderStatusUpdateDto statusDto) {
+        Order order = orderService.updateOrderStatus(id, statusDto.status());
         return ResponseEntity.ok(order);
     }
 
