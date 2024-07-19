@@ -55,7 +55,12 @@ public class OrderServiceImpl implements OrderService {
     private OrderItem createOrderItem(OrderItemDto orderItemDto) {
         MenuItem menuItem = menuItemRepository.findById(orderItemDto.menuItemId())
                 .orElseThrow(() -> new MenuItemNotFoundException(orderItemDto.menuItemId()));
-        return null;
+
+        OrderItem orderItem = new OrderItem();
+        orderItem.setMenuItem(menuItem);
+        orderItem.setQuantity(orderItemDto.quantity());
+
+        return orderItem;
     }
 
     /**

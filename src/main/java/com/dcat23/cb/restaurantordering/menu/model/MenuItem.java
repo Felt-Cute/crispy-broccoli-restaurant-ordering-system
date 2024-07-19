@@ -67,4 +67,8 @@ public class MenuItem {
     public int hashCode() {
         return Objects.hash(name, description, category);
     }
+
+    public void setPrice(Double price) {
+        this.price = Math.max(price, 0.0);
+    }
 }
