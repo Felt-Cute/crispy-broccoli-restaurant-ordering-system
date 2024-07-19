@@ -2,6 +2,7 @@ package com.dcat23.cb.restaurantordering.order.service;
 
 import com.dcat23.cb.restaurantordering.order.dto.OrderCreationDto;
 import com.dcat23.cb.restaurantordering.order.dto.OrderStatusUpdateDto;
+import com.dcat23.cb.restaurantordering.order.exception.OrderNotFoundException;
 import com.dcat23.cb.restaurantordering.order.model.Order;
 import com.dcat23.cb.restaurantordering.order.repository.OrderRepository;
 import com.dcat23.cb.restaurantordering.user.exception.UserNotFoundException;
@@ -44,7 +45,8 @@ public class OrderServiceImpl implements OrderService {
      */
     @Override
     public Order getOrderById(Long id) {
-        return null;
+        return orderRepository.findById(id)
+                .orElseThrow(() -> new OrderNotFoundException(id));
     }
 
     /**
@@ -75,6 +77,6 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<Order> getAllOrders() {
-        return List.of();
+        return orderRepository.findAll();
     }
 }
