@@ -4,6 +4,7 @@ import com.dcat23.cb.restaurantordering.user.dto.UserLoginDto;
 import com.dcat23.cb.restaurantordering.user.dto.UserRegistrationDto;
 import com.dcat23.cb.restaurantordering.user.dto.UserUpdateDto;
 import com.dcat23.cb.restaurantordering.user.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,13 +27,13 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<User> register(@RequestBody UserRegistrationDto userRegistration) {
+    public ResponseEntity<User> register(@Valid @RequestBody UserRegistrationDto userRegistration) {
         User user = userService.registerUser(userRegistration);
         return ResponseEntity.status(HttpStatus.CREATED).body(user);
     }
 
     @PostMapping("/login")
-    public ResponseEntity<User> login(@RequestBody UserLoginDto userLogin) {
+    public ResponseEntity<User> login(@Valid @RequestBody UserLoginDto userLogin) {
         User user = userService.login(userLogin);
         return ResponseEntity.ok(user);
     }

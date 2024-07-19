@@ -2,6 +2,7 @@ package com.dcat23.cb.restaurantordering.core.exception;
 
 import com.dcat23.cb.restaurantordering.menu.exception.MenuNotFoundException;
 import com.dcat23.cb.restaurantordering.order.exception.InvalidStatusTransitionException;
+import com.dcat23.cb.restaurantordering.user.exception.UserAlreadyExistsException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -42,7 +43,7 @@ public class GlobalExceptionHandler {
     ) {
         String validationErrors = e.getBindingResult().getAllErrors().stream()
                 .map(ObjectError::getDefaultMessage)
-                .collect(Collectors.joining(","));
+                .collect(Collectors.joining(", "));
 
         String message = "Validation errors: " + validationErrors;
 
@@ -50,7 +51,7 @@ public class GlobalExceptionHandler {
 
         ErrorMessage errorMessage = new ErrorMessage(
                 request.getRequestURI(),
-                message,
+                validationErrors,
                 HttpStatus.BAD_REQUEST,
                 LocalDateTime.now()
         );
@@ -86,6 +87,22 @@ public class GlobalExceptionHandler {
         );
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage);
+    }
+
+    @ExceptionHandler(UserAlreadyExistsException.class)
+    public ResponseEntity<ErrorMessage> userAlreadyExistsExceptionHandler(
+            UserAlreadyExistsException e,
+            HttpServletRequest request
+    ) {
+        ErrorMessage errorMessage = new ErrorMessage(
+                request.getRequestURI(),
+                e.getMessage(),
+
+                HttpStatus.CONFLICT,
+                LocalDateTime.now()
+        );
+
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(errorMessage);
     }
 
 }

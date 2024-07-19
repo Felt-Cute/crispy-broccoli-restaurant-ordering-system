@@ -34,8 +34,9 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public User registerUser(UserRegistrationDto registrationDTO) {
-        if (userRepository.existsByUsername(registrationDTO.username())) {
-            throw new UserAlreadyExistsException("Username is already taken.");
+        String lowerCasedName = Sanitize.lower(registrationDTO.username());
+        if (userRepository.existsByUsername(lowerCasedName)) {
+            throw new UserAlreadyExistsException(lowerCasedName);
         }
 
         User user = new User();
@@ -93,6 +94,6 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public List<User> getAllUsers() {
-        return List.of();
+        return userRepository.findAll();
     }
 }
