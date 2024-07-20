@@ -25,7 +25,7 @@ public class RestaurantOrderingUserDetailsService implements UserDetailsService 
     /**
      * @param username the username identifying the user whose data is required
      * @return UserDetails
-     * @throws UsernameNotFoundException if user is not found
+     * @throws UsernameNotFoundException if username is not found
      */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

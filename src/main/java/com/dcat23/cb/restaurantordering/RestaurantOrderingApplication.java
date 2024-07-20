@@ -10,6 +10,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -22,22 +23,23 @@ public class RestaurantOrderingApplication {
     }
 
     @Bean
-    public CommandLineRunner runner(MenuRepository menuRepository, UserRepository userRepository) {
+    public CommandLineRunner runner(MenuRepository menuRepository, UserRepository userRepository, PasswordEncoder passwordEncoder) {
         return args -> {
             Menu initialMenu = initMenu();
             menuRepository.save(initialMenu);
 
-            User user = createUser();
+            User user = createUser(passwordEncoder);
             userRepository.save(user);
 
         };
     }
 
-    private User createUser() {
+    private User createUser(PasswordEncoder passwordEncoder) {
+        String encoded = passwordEncoder.encode("super-supreme-password");
         User user = new User();
         user.setUsername("dcat");
-        user.setPassword("super - secret");
-        user.setEmail("dcat@dcat.com");
+        user.setPassword(encoded);
+        user.setEmail("dcat@myself.com");
         user.addRoles(Role.ADMIN, Role.STAFF, Role.CUSTOMER);
         return user;
     }
