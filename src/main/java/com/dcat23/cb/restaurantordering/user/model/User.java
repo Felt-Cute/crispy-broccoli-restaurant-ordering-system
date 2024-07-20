@@ -31,6 +31,8 @@ public class User {
 
     @Enumerated(EnumType.STRING)
     @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
+    @Column(nullable = false, name = "roles")
     private Set<Role> roles = new HashSet<>();
 
     @OneToMany(mappedBy = "user",

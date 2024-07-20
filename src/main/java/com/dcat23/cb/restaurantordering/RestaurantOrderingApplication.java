@@ -35,7 +35,7 @@ public class RestaurantOrderingApplication {
     }
 
     private User createUser(PasswordEncoder passwordEncoder) {
-        String encoded = passwordEncoder.encode("super-supreme-password");
+        String encoded = passwordEncoder.encode("password");
         User user = new User();
         user.setUsername("dcat");
         user.setPassword(encoded);

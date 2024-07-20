@@ -19,7 +19,7 @@ public class RestaurantOrderingAuthenticationProvider implements AuthenticationP
     private final PasswordEncoder passwordEncoder;
 
     /**
-     * @param authentication username and password
+     * @param authentication contains username and password
      * @return UsernamePasswordAuthenticationToken
      * @throws AuthenticationException for bad username or password
      */
