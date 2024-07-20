@@ -7,6 +7,7 @@ import com.dcat23.cb.restaurantordering.menu.service.MenuService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -35,18 +36,21 @@ public class MenuController {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Menu> createMenu(@Valid @RequestBody MenuCreationDto menuCreationDto) {
         Menu menu = menuService.createMenu(menuCreationDto);
         return ResponseEntity.ok(menu);
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Menu> updateMenu(@PathVariable Long id, @RequestBody MenuUpdateDto menuUpdateDto) {
         Menu menu = menuService.updateMenu(id, menuUpdateDto);
         return ResponseEntity.ok(menu);
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Menu> deleteMenu(@PathVariable Long id) {
         Menu menu = menuService.deleteMenu(id);
         return ResponseEntity.ok(menu);

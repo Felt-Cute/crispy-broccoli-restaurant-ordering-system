@@ -2,7 +2,7 @@ package com.dcat23.cb.restaurantordering.user.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.Customizer;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -14,24 +14,28 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.authorizeHttpRequests(requests -> requests
-                .requestMatchers(
-                        "/api/users/login",
-                        "/api/users/register",
-                        "/api/menus",
-                        "/error")
-                .permitAll()
-                .requestMatchers(
-                        "/api/orders",
-                        "/api/users/profile")
-                .authenticated()
-                .requestMatchers(
-                        "/api/payments")
-                .denyAll()
+        http
+                .csrf(AbstractHttpConfigurer::disable)
+                .cors(AbstractHttpConfigurer::disable)
+                .formLogin(AbstractHttpConfigurer::disable)
+                .securityMatcher("/api/**")
+                .authorizeHttpRequests(requests -> requests
+                    .requestMatchers(HttpMethod.GET,
+                            "/api/orders",
+                            "/api/orders/**",
+                            "/api/users/profile")
+                    .authenticated()
+                    .requestMatchers(
+                            "/api/users/login",
+                            "/api/users/register")
+                    .permitAll()
+                    .requestMatchers(HttpMethod.GET)
+                    .permitAll()
+                    .requestMatchers(
+                            "/api/payments")
+                    .denyAll()
+                    .anyRequest().authenticated()
         );
-        http.csrf(AbstractHttpConfigurer::disable);
-        http.formLogin(Customizer.withDefaults());
-
         return http.build();
     }
 
