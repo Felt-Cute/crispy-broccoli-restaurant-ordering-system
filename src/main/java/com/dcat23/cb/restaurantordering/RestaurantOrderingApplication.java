@@ -13,6 +13,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @SpringBootApplication
@@ -28,17 +29,37 @@ public class RestaurantOrderingApplication {
             Menu initialMenu = initMenu();
             menuRepository.save(initialMenu);
 
-            User user = createUser(passwordEncoder);
-            userRepository.save(user);
+            String pwd = passwordEncoder.encode("password");
+            User admin = createAdmin(pwd);
+            User staff = createStaff(pwd);
+            User customer = createCustomer(pwd);
+            userRepository.saveAll(List.of(admin, staff, customer));
 
         };
     }
 
-    private User createUser(PasswordEncoder passwordEncoder) {
-        String encoded = passwordEncoder.encode("password");
+    private User createCustomer(String password) {
+        User customer = new User();
+        customer.setUsername("customer");
+        customer.setPassword(password);
+        customer.setEmail("customer@myself.com");
+        customer.addRoles(Role.CUSTOMER);
+        return customer;
+    }
+
+    private User createStaff(String password) {
+        User staff = new User();
+        staff.setUsername("staff");
+        staff.setPassword(password);
+        staff.setEmail("staff@myself.com");
+        staff.addRoles(Role.STAFF, Role.CUSTOMER);
+        return staff;
+    }
+
+    private User createAdmin(String password) {
         User user = new User();
         user.setUsername("dcat");
-        user.setPassword(encoded);
+        user.setPassword(password);
         user.setEmail("dcat@myself.com");
         user.addRoles(Role.ADMIN, Role.STAFF, Role.CUSTOMER);
         return user;
