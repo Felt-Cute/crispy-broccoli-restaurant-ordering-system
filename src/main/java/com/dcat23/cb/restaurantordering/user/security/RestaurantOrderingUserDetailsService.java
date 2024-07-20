@@ -1,9 +1,9 @@
-package com.dcat23.cb.restaurantordering.user.config;
+package com.dcat23.cb.restaurantordering.user.security;
 
+import com.dcat23.cb.restaurantordering.user.model.Role;
 import com.dcat23.cb.restaurantordering.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -32,7 +32,9 @@ public class RestaurantOrderingUserDetailsService implements UserDetailsService 
         com.dcat23.cb.restaurantordering.user.model.User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException(username));
 
-        List<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority(user.getRole().name()));
+        List<GrantedAuthority> authorities = user.getRoles().stream()
+                .map(Role::authority)
+                .toList();
 
         return new User(user.getUsername(), user.getPassword(), authorities);
     }

@@ -6,8 +6,8 @@ import com.dcat23.cb.restaurantordering.user.dto.UserRegistrationDto;
 import com.dcat23.cb.restaurantordering.user.dto.UserUpdateDto;
 import com.dcat23.cb.restaurantordering.user.exception.UserAlreadyExistsException;
 import com.dcat23.cb.restaurantordering.user.exception.UserNotFoundException;
+import com.dcat23.cb.restaurantordering.user.model.Role;
 import com.dcat23.cb.restaurantordering.user.model.User;
-import com.dcat23.cb.restaurantordering.user.model.UserRole;
 import com.dcat23.cb.restaurantordering.user.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -43,7 +43,7 @@ public class UserServiceImpl implements UserService {
         user.setUsername(registrationDTO.username());
         user.setEmail(registrationDTO.email());
         user.setPassword(passwordEncoder.encode(registrationDTO.password()));
-        user.setRole(UserRole.CUSTOMER);
+        user.addRoles(Role.CUSTOMER);
 
         return userRepository.save(user);
 

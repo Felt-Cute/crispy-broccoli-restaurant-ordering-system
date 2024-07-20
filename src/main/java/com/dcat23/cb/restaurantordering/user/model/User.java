@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -28,18 +29,17 @@ public class User {
     @Column(nullable = false, name = "pwd_hash")
     private String password;
 
+    @ElementCollection(fetch = FetchType.EAGER)
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private UserRole role;
+    private Set<Role> roles = new HashSet<>();
 
     @OneToMany(mappedBy = "user",
             cascade = CascadeType.DETACH,
-            fetch = FetchType.LAZY
-    )
+            fetch = FetchType.LAZY)
     private Set<Order> orders = new HashSet<>();
 
-    public User() {
-        role = UserRole.CUSTOMER;
+    public void addRoles(Role... role) {
+        this.roles.addAll(Arrays.asList(role));
     }
 
     public void addOrder(Order order) {
