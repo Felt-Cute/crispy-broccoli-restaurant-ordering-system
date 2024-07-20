@@ -81,8 +81,8 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
-     * @param id
-     * @return
+     * @param id the user's id
+     * @return the User Object
      */
     @Override
     public User getUserById(Long id) {
@@ -90,7 +90,7 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
-     * @return
+     * @return List of Users
      */
     @Override
     public List<User> getAllUsers() {

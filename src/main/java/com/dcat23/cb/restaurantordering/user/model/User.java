@@ -29,8 +29,8 @@ public class User {
     @Column(nullable = false, name = "pwd_hash")
     private String password;
 
-    @ElementCollection(fetch = FetchType.EAGER)
     @Enumerated(EnumType.STRING)
+    @ElementCollection(fetch = FetchType.EAGER)
     private Set<Role> roles = new HashSet<>();
 
     @OneToMany(mappedBy = "user",
