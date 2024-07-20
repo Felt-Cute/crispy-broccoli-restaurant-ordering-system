@@ -3,19 +3,22 @@ package com.dcat23.cb.restaurantordering.user.security;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Profile;
 import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-@Profile("!prod")
+@Profile("prod")
 @Component
 @RequiredArgsConstructor
-public class UsernamePwdAuthenticationProvider implements AuthenticationProvider {
+public class ProdUsernamePwdAuthenticationProvider implements AuthenticationProvider {
 
     private final UserDetailsService userDetailsService;
+    private final PasswordEncoder passwordEncoder;
 
     /**
      * @param authentication contains username and password
@@ -28,8 +31,11 @@ public class UsernamePwdAuthenticationProvider implements AuthenticationProvider
         String password = (String) authentication.getCredentials();
 
         UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-        return new UsernamePasswordAuthenticationToken(userDetails, password, userDetails.getAuthorities());
-
+        if (passwordEncoder.matches(password, userDetails.getPassword())) {
+            return new UsernamePasswordAuthenticationToken(userDetails, password, userDetails.getAuthorities());
+        } else {
+            throw new BadCredentialsException("Bad credentials");
+        }
     }
 
     /**
