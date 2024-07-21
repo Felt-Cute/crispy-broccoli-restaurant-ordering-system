@@ -1,13 +1,13 @@
 package com.dcat23.cb.restaurantordering.order.service;
 
 import com.dcat23.cb.restaurantordering.menu.model.MenuItem;
-import com.dcat23.cb.restaurantordering.menu.repository.MenuItemRepository;
+import com.dcat23.cb.restaurantordering.menu.service.MenuService;
 import com.dcat23.cb.restaurantordering.order.dto.OrderCreationDto;
 import com.dcat23.cb.restaurantordering.order.model.Order;
 import com.dcat23.cb.restaurantordering.order.model.OrderStatus;
 import com.dcat23.cb.restaurantordering.order.repository.OrderRepository;
 import com.dcat23.cb.restaurantordering.user.model.User;
-import com.dcat23.cb.restaurantordering.user.repository.UserRepository;
+import com.dcat23.cb.restaurantordering.user.service.UserService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -30,10 +30,10 @@ class OrderServiceTest {
     private OrderRepository orderRepository;
     
     @Mock        
-    private MenuItemRepository menuItemRepository;
+    private MenuService menuService;
     
     @Mock        
-    private UserRepository userRepository;
+    private UserService userService;
     
     @InjectMocks
     private OrderServiceImpl orderService;
@@ -58,10 +58,10 @@ class OrderServiceTest {
         OrderCreationDto creationDto = mock(OrderCreationDto.class);
 
         /* When - create */
-        when(userRepository.findById(anyLong()))
-                .thenReturn(Optional.of(mock(User.class)));
-        when(menuItemRepository.findById(anyLong()))
-                .thenReturn(Optional.of(mock(MenuItem.class)));
+        when(userService.getUserById(anyLong()))
+                .thenReturn(mock(User.class));
+        when(menuService.getMenuItemById(anyLong()))
+                .thenReturn(mock(MenuItem.class));
         when(orderRepository.save(any(Order.class)))
                 .thenReturn(mock(Order.class));
 

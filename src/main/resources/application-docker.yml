@@ -1,22 +1,22 @@
 server:
-  port: ${SERVER_PORT:8181}
+  port: ${SERVER_PORT:8080}
 
 spring:
   application:
     name: ${SPRING_APPLICATION_NAME:restaurant-ordering}
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
+    show-sql: false
     properties:
       hibernate:
-        format_sql: true
         dialect: org.hibernate.dialect.PostgreSQLDialect
-    show-sql: false
   datasource:
-    url: jdbc:postgresql://${DATABASE_HOST:localhost}:${DATABASE_PORT:5432}/${DATABASE_NAME:restaurant_ordering}
+    url: jdbc:postgresql://${DATABASE_HOST:postgres}:${DATABASE_PORT:5432}/${DATABASE_NAME:restaurant_ordering}
     password: ${DATABASE_PASSWORD:password}
     username: ${DATABASE_USER:default}
     driver-class-name: org.postgresql.Driver
+
 
 springdoc:
   swagger-ui:
@@ -26,4 +26,3 @@ springdoc:
 logging:
   level:
     root: warn
-    com.dcat23.cb: debug

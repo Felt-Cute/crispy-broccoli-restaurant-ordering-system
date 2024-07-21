@@ -3,9 +3,9 @@ services:
     container_name: postgres_cb_restaurant_ordering
     image: postgres:alpine3.19
     environment:
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${DATABASE_USER}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+      POSTGRES_DB: ${DATABASE_NAME}
       PGDATA: /data/postgres
     volumes:
       - postgres:/data/postgres
@@ -14,6 +14,18 @@ services:
     networks:
       - postgres
     restart: unless-stopped
+
+  app:
+    image: macchiato23/crispy-broccoli-restaurant-ordering:0.0.1-SNAPSHOT
+    container_name: app_cb_restaurant_ordering
+    ports:
+      - "8181:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    networks:
+      - postgres
+    depends_on:
+      - postgres
 
 networks:
   postgres:
