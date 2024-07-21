@@ -1,8 +1,8 @@
 package com.dcat23.cb.restaurantordering.order.controller;
 
+import com.dcat23.cb.restaurantordering.order.dto.OrderCreationDto;
 import com.dcat23.cb.restaurantordering.order.dto.OrderStatusUpdateDto;
 import com.dcat23.cb.restaurantordering.order.model.Order;
-import com.dcat23.cb.restaurantordering.order.dto.OrderCreationDto;
 import com.dcat23.cb.restaurantordering.order.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +17,6 @@ import java.util.Set;
 public class OrderController {
 
     private final OrderService orderService;
-
     @Autowired
     public OrderController(OrderService orderService) {
         this.orderService = orderService;

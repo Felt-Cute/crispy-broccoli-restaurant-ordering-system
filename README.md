@@ -136,10 +136,10 @@ To run this project, you will need to add the following environment variables to
 
 ## Implementation Steps
 - [x] Set up Spring Boot project with necessary dependencies
-- [] Implement database models and repositories
-- [] Create RESTful API endpoints
-- [] Implement business logic in service layers
-- [] Set up Spring Security for authentication and authorization
+- [x] Implement database models and repositories
+- [x] Create RESTful API endpoints
+- [x] Implement business logic in service layers
+- [x] Set up Spring Security for authentication and authorization
 - [] Integrate Stripe API for payment processing
 - [] Implement WebSocket for real-time order updates
 - [] Develop React frontend components and pages

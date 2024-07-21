@@ -2,8 +2,11 @@ package com.dcat23.cb.restaurantordering.menu.service;
 
 import com.dcat23.cb.restaurantordering.menu.dto.MenuCreationDto;
 import com.dcat23.cb.restaurantordering.menu.dto.MenuUpdateDto;
+import com.dcat23.cb.restaurantordering.menu.exception.MenuItemNotFoundException;
 import com.dcat23.cb.restaurantordering.menu.exception.MenuNotFoundException;
 import com.dcat23.cb.restaurantordering.menu.model.Menu;
+import com.dcat23.cb.restaurantordering.menu.model.MenuItem;
+import com.dcat23.cb.restaurantordering.menu.repository.MenuItemRepository;
 import com.dcat23.cb.restaurantordering.menu.repository.MenuRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,10 +19,12 @@ import java.util.List;
 public class MenuServiceImpl implements MenuService {
 
     private final MenuRepository menuRepository;
+    private final MenuItemRepository menuItemRepository;
 
     @Autowired
-    public MenuServiceImpl(MenuRepository menuRepository) {
+    public MenuServiceImpl(MenuRepository menuRepository, MenuItemRepository menuItemRepository) {
         this.menuRepository = menuRepository;
+        this.menuItemRepository = menuItemRepository;
     }
 
     /**
@@ -56,6 +61,16 @@ public class MenuServiceImpl implements MenuService {
         Menu menu = getMenuById(id);
         menuRepository.delete(menu);
         return menu;
+    }
+
+    /**
+     * @param id MenuItem id
+     * @return MenuItem object
+     */
+    @Override
+    public MenuItem getMenuItemById(Long id) {
+        return menuItemRepository.findById(id)
+                .orElseThrow(() -> new MenuItemNotFoundException(id));
     }
 
     /**

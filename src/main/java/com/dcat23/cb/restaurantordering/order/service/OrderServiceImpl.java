@@ -1,8 +1,7 @@
 package com.dcat23.cb.restaurantordering.order.service;
 
-import com.dcat23.cb.restaurantordering.menu.exception.MenuItemNotFoundException;
 import com.dcat23.cb.restaurantordering.menu.model.MenuItem;
-import com.dcat23.cb.restaurantordering.menu.repository.MenuItemRepository;
+import com.dcat23.cb.restaurantordering.menu.service.MenuService;
 import com.dcat23.cb.restaurantordering.order.dto.OrderCreationDto;
 import com.dcat23.cb.restaurantordering.order.dto.OrderItemDto;
 import com.dcat23.cb.restaurantordering.order.exception.InvalidStatusTransitionException;
@@ -11,9 +10,8 @@ import com.dcat23.cb.restaurantordering.order.model.Order;
 import com.dcat23.cb.restaurantordering.order.model.OrderItem;
 import com.dcat23.cb.restaurantordering.order.model.OrderStatus;
 import com.dcat23.cb.restaurantordering.order.repository.OrderRepository;
-import com.dcat23.cb.restaurantordering.user.exception.UserNotFoundException;
 import com.dcat23.cb.restaurantordering.user.model.User;
-import com.dcat23.cb.restaurantordering.user.repository.UserRepository;
+import com.dcat23.cb.restaurantordering.user.service.UserService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,14 +23,14 @@ import java.util.Set;
 public class OrderServiceImpl implements OrderService {
 
     private final OrderRepository orderRepository;
-    private final MenuItemRepository menuItemRepository;
-    private final UserRepository userRepository;
+    private final MenuService menuService;
+    private final UserService userService;
 
     @Autowired
-    public OrderServiceImpl(OrderRepository orderRepository, MenuItemRepository menuItemRepository, UserRepository userRepository) {
+    public OrderServiceImpl(OrderRepository orderRepository, MenuService menuService, UserService userService) {
         this.orderRepository = orderRepository;
-        this.menuItemRepository = menuItemRepository;
-        this.userRepository = userRepository;
+        this.menuService = menuService;
+        this.userService = userService;
     }
 
     /**
@@ -47,15 +45,14 @@ public class OrderServiceImpl implements OrderService {
                 .map(this::createOrderItem)
                 .forEach(order::addItem);
 
-        User user = getUserByUserId(orderDto.userId());
+        User user = userService.getUserById(orderDto.userId());
         user.addOrder(order);
 
         return orderRepository.save(order);
     }
 
     private OrderItem createOrderItem(OrderItemDto orderItemDto) {
-        MenuItem menuItem = menuItemRepository.findById(orderItemDto.menuItemId())
-                .orElseThrow(() -> new MenuItemNotFoundException(orderItemDto.menuItemId()));
+        MenuItem menuItem = menuService.getMenuItemById(orderItemDto.menuItemId());
 
         OrderItem orderItem = new OrderItem();
         orderItem.setMenuItem(menuItem);
@@ -81,14 +78,9 @@ public class OrderServiceImpl implements OrderService {
      */
     @Override
     public Set<Order> getOrdersByUser(Long userId) {
-        User user = getUserByUserId(userId);
+        User user = userService.getUserById(userId);
 
         return user.getOrders();
-    }
-
-    private User getUserByUserId(Long userId) {
-        return userRepository.findById(userId)
-                .orElseThrow(() -> new UserNotFoundException(userId));
     }
 
     /**
