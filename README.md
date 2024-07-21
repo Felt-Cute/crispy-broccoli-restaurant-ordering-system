@@ -72,8 +72,6 @@ http://localhost:8181/swagger-ui.html
 - `POST /api/payments`
 - `GET /api/payments/{orderId}`
 
-Services utilize [Spring-Doc]() for html documentation
-
 ---
 ## Database Schema
 
@@ -124,13 +122,17 @@ Services utilize [Spring-Doc]() for html documentation
 ---
 ## Environment Variables
 
-To run this project, you will need to add the following environment variables to your .env file
+Add the following environment variables to the `.env` file
 
-`POSTGRES_USER`
-
-`POSTGRES_PASSWORD`
-
-`POSTGRES_DB`
+`DATABASE_HOST`
+`DATABASE_PORT`
+`DATABASE_NAME`
+`DATABASE_PASSWORD`
+`DATABASE_USER`
+`SPRING_APPLICATION_NAME`
+`SWAGGER_UI_PATH`
+`API_DOCS_PATH`
+`SERVER_PORT`
 
 ---
 
