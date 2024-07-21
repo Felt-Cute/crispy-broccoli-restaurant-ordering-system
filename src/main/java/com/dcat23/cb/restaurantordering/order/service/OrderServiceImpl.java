@@ -79,7 +79,6 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Set<Order> getOrdersByUser(Long userId) {
         User user = userService.getUserById(userId);
-
         return user.getOrders();
     }
 
