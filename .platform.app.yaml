@@ -1,0 +1,16 @@
+# The name of the app. Must be unique within a project.
+name: restaurant_ordering
+
+# The type of the application to build
+type: 'java:17'
+
+# The size of the persistent disk of the application (in MB)
+disk: 512
+
+# Your app's configuration when it's exposed to the web.
+web:
+  commands:
+    start: java -jar $JAVA_OPTS target/app.jar --server.port=$PORT
+
+hooks:
+  build: mvn clean package
