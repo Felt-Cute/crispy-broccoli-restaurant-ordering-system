@@ -10,6 +10,6 @@ public record UserRoleAuthority(Role role) implements GrantedAuthority {
      */
     @Override
     public String getAuthority() {
-        return role.name();
+        return "ROLE_" + role.name();
     }
 }

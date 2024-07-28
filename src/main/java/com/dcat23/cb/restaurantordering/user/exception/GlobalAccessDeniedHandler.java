@@ -21,7 +21,7 @@ public class GlobalAccessDeniedHandler implements AccessDeniedHandler {
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException, ServletException {
         String path = request.getRequestURI();
-        String message = (accessDeniedException.getMessage() != null) ? accessDeniedException.getMessage() : "Unauthorized";
+        String message = (accessDeniedException.getMessage() != null) ? accessDeniedException.getMessage() : "Access Denied";
         response.setStatus(HttpServletResponse.SC_FORBIDDEN);
         response.setContentType("application/json;charset=utf-8");
         response.setHeader("filn-denied-reason", "Authentication Failed");

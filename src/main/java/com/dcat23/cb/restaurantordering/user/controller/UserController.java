@@ -41,7 +41,6 @@ public class UserController {
     }
 
     @GetMapping("/profile")
-    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<User> getUserProfile(Authentication authentication) {
         String username = authentication.getName();
         User user = userService.getUserByUsername(username);
@@ -49,7 +48,6 @@ public class UserController {
     }
 
     @PutMapping("/profile")
-    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<User> updateUserProfile(Authentication authentication, @RequestBody UserUpdateDto updateDto) {
         String username = authentication.getName();
         User updatedUser = userService.updateUser(username, updateDto);

@@ -9,7 +9,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -31,19 +30,22 @@ public class SecurityConfig {
                 .addFilterAfter(new JwtTokenGeneratorFilter(), BasicAuthenticationFilter.class)
                 .addFilterBefore(new JwtTokenValidatorFilter(), BasicAuthenticationFilter.class)
                 .authorizeHttpRequests(requests -> requests
-                    .requestMatchers(
-                            "/error",
-                            "/swagger-ui.html",
-                            "/swagger-ui/**",
-                            "/v3/api-docs/**",
-                            "/api/users/login",
-                            "/api/users/register")
-                        .permitAll()
-                    .anyRequest().authenticated()
+                        .requestMatchers(
+                            "/api/users/profile"
+                        ).authenticated()
+                        .requestMatchers(
+                                "/error",
+                                "/swagger-ui.html",
+                                "/swagger-ui/**",
+                                "/v3/api-docs/**",
+                                "/api/users/login",
+                                "/api/users/register")
+                            .permitAll()
+                        .anyRequest().authenticated()
                 )
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(AbstractHttpConfigurer::disable)
-                .httpBasic(Customizer.withDefaults())
+                .httpBasic(hbc -> hbc.authenticationEntryPoint(new GlobalAuthenticationEntryPoint()))
                 .formLogin(AbstractHttpConfigurer::disable)
                 .exceptionHandling(handler -> handler
                     .authenticationEntryPoint(new GlobalAuthenticationEntryPoint())
