@@ -1,5 +1,7 @@
 package com.dcat23.cb.restaurantordering.user.config;
 
+import com.dcat23.cb.restaurantordering.user.exception.GlobalAccessDeniedHandler;
+import com.dcat23.cb.restaurantordering.user.exception.GlobalAuthenticationEntryPoint;
 import com.dcat23.cb.restaurantordering.user.filter.JwtTokenGeneratorFilter;
 import com.dcat23.cb.restaurantordering.user.filter.JwtTokenValidatorFilter;
 import com.dcat23.cb.restaurantordering.user.security.UsernamePwdAuthenticationProvider;
@@ -42,7 +44,10 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(AbstractHttpConfigurer::disable)
                 .httpBasic(Customizer.withDefaults())
-                .formLogin(AbstractHttpConfigurer::disable);
+                .formLogin(AbstractHttpConfigurer::disable)
+                .exceptionHandling(handler -> handler
+                    .authenticationEntryPoint(new GlobalAuthenticationEntryPoint())
+                    .accessDeniedHandler(new GlobalAccessDeniedHandler()));
 
         return http.build();
     }

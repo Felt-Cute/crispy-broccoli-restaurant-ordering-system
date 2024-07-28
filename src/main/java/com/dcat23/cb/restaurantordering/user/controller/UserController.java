@@ -7,6 +7,7 @@ import com.dcat23.cb.restaurantordering.user.dto.UserUpdateDto;
 import com.dcat23.cb.restaurantordering.user.model.User;
 import com.dcat23.cb.restaurantordering.user.service.UserService;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,14 +21,10 @@ import static com.dcat23.cb.restaurantordering.user.security.SecurityConstants.J
 
 @RestController
 @RequestMapping("/api/users")
+@RequiredArgsConstructor(onConstructor_ = @Autowired)
 public class UserController {
 
     private final UserService userService;
-
-    @Autowired
-    public UserController(UserService userService) {
-        this.userService = userService;
-    }
 
     @PostMapping("/register")
     public ResponseEntity<User> register(@Valid @RequestBody UserRegistrationDto userRegistration) {
