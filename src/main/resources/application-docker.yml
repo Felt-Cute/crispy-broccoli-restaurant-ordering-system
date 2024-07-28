@@ -26,3 +26,6 @@ springdoc:
 logging:
   level:
     root: warn
+
+jwt:
+  secret: ${JWT_SECRET:"this is a pretty long secret but it could be longer"}
