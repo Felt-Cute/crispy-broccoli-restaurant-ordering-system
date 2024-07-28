@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: ${SPRING_APPLICATION_NAME:restaurant-ordering}
+    name: restaurant-ordering
   jpa:
     hibernate:
       ddl-auto: create-drop

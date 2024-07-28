@@ -11,8 +11,8 @@ import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
-@EnableMethodSecurity
 @Configuration
+@EnableMethodSecurity
 public class SecurityConfig {
 
     @Bean
@@ -37,14 +37,4 @@ public class SecurityConfig {
     public PasswordEncoder passwordEncoder() {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
-
-//    @Bean
-//    public AuthenticationManager authenticationManager(UserDetailsService userDetailsService,
-//                                                       PasswordEncoder passwordEncoder) {
-//        UsernamePwdAuthenticationProvider authenticationProvider =
-//                new UsernamePwdAuthenticationProvider(userDetailsService, passwordEncoder);
-//        ProviderManager providerManager = new ProviderManager(authenticationProvider);
-//        providerManager.setEraseCredentialsAfterAuthentication(false);
-//        return providerManager;
-//    }
 }

@@ -15,17 +15,17 @@ services:
       - postgres
     restart: unless-stopped
 
-  app:
-    image: macchiato23/crispy-broccoli-restaurant-ordering:0.0.1-SNAPSHOT
-    container_name: app_cb_restaurant_ordering
-    ports:
-      - "8181:8080"
-    environment:
-      - SPRING_PROFILES_ACTIVE=docker
-    networks:
-      - postgres
-    depends_on:
-      - postgres
+#  app:
+#    image: macchiato23/crispy-broccoli-restaurant-ordering:0.0.1-SNAPSHOT
+#    container_name: app_cb_restaurant_ordering
+#    ports:
+#      - "8181:8080"
+#    environment:
+#      - SPRING_PROFILES_ACTIVE=docker
+#    networks:
+#      - postgres
+#    depends_on:
+#      - postgres
 
 networks:
   postgres:
