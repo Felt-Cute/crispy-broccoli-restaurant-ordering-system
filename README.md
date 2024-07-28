@@ -20,14 +20,24 @@ It also provides restaurant staff with tools to manage orders and update menus.
 6. Payment integration
 
 ---
-## Technologies
-Project is created with:
-* [Java 21](https://docs.oracle.com/en/java/javase/21/)
-* [Spring Boot: 3.3.1](https://docs.spring.io/spring-boot/docs/current/reference/html/)
+## Technical Stack
+
+### Frontend
+- **Framework**: React for building a user interface.
+- **State Management**: Redux or Context API for managing application state.
+
+### Backend
+- **Framework**: Spring Boot for the backend RESTful API.
+- **Database**: PostgreSQL for storing user data, resources, and discussions.
+- **Authentication**: Use Spring Security for user authentication and authorization.
+
+### Hosting and Deployment
+- **Cloud Provider**: AWS, Heroku, or DigitalOcean for hosting the application.
+- **Containerization**: Docker for containerizing the application for easier deployment and scalability.
 
 ---
 
-## Running Locally
+## Setup
 
 Clone the project
 
@@ -36,10 +46,16 @@ Clone the project
   cd crispy-broccoli-restaurant-ordering-system
 ```
 
-Copy environment variables
+Copy environment variables to the `.env` file
 ```bash
 cp .env.example .env
 ```
+`DATABASE_HOST`
+`DATABASE_PORT`
+`DATABASE_NAME`
+`DATABASE_PASSWORD`
+`DATABASE_USER`
+`JWT_SECRET`
 
 Start the database
 
@@ -47,10 +63,7 @@ Start the database
 docker compose up -d
 ```
 ---
-
-## API Reference
-
-http://localhost:8181/swagger-ui.html
+## [API Reference](http://localhost:8181/swagger-ui.html)
 
 ### [Menu API](http://localhost:8181/api/menus)
 - `GET /api/menus`
@@ -76,66 +89,50 @@ http://localhost:8181/swagger-ui.html
 ## Database Schema
 
 ### Users
-- id (PK)
-- username
-- email
-- password_hash
-- role (customer/staff/admin)
+- `id` (PK)
+- `username`
+- `email`
+- `password`
+- `role` (customer/staff/admin)
 
 ### Menus
-- id (PK)
-- name
-- description
+- `id` (PK)
+- `name`
+- `description`
 
 ### MenuItems
-- id (PK)
-- menu_id (FK)
-- name
-- description
-- price
-- category
-- image_url
+- `id` (PK)
+- `menu_id` (FK)
+- `name`
+- `description`
+- `price`
+- `category`
+- `image_url`
 
 ### Orders
-- id (PK)
-- user_id (FK)
-- status
-- total_amount
-- created_at
-- updated_at
+- `id` (PK)
+- `user_id` (FK)
+- `status`
+- `total_amount`
+- `created_at`
+- `updated_at`
 
 ### OrderItems
-- id (PK)
-- order_id (FK)
-- menu_item_id (FK)
-- quantity
-- subtotal
+- `id` (PK)
+- `order_id` (FK)
+- `menu_item_id` (FK)
+- `quantity`
+- `subtotal`
 
 ### Payments
-- id (PK)
-- order_id (FK)
-- amount
-- status
-- payment_method
-- transaction_id
+- `id` (PK)
+- `order_id` (FK)
+- `amount`
+- `status`
+- `payment_method`
+- `transaction_id`
 
 ---
-## Environment Variables
-
-Add the following environment variables to the `.env` file
-
-`DATABASE_HOST`
-`DATABASE_PORT`
-`DATABASE_NAME`
-`DATABASE_PASSWORD`
-`DATABASE_USER`
-`SPRING_APPLICATION_NAME`
-`SWAGGER_UI_PATH`
-`API_DOCS_PATH`
-`SERVER_PORT`
-
----
-
 ## Implementation Steps
 - [x] Set up Spring Boot project with necessary dependencies
 - [x] Implement database models and repositories
@@ -164,7 +161,7 @@ Add the following environment variables to the `.env` file
 ---
 
 ## 🔗 Links
-[![portfolio](https://img.shields.io/badge/my_portfolio-000?style=for-the-badge&logo=ko-fi&logoColor=white)](https://dcatuns.vercel.app/)
+[![portfolio](https://img.shields.io/badge/my_portfolio-000?style=for-the-badge&logo=ko-fi&logoColor=white)](https://dcat23.vercel.app/)
 [![linkedin](https://img.shields.io/badge/linkedin-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/devin-catuns/)
 [![twitter](https://img.shields.io/badge/twitter-1DA1F2?style=for-the-badge&logo=twitter&logoColor=white)](https://twitter.com/)
 
@@ -177,13 +174,8 @@ Whether you use this project, have learned something from it, or just like it, p
 
 
 ---
-
-## Acknowledgements
-
-
----
-
 ## Feedback
+If you have any feedback, please reach out to me by
 
-If you have any feedback, please reach out to us at devincatuns1@gmail.com
+<a href="mailto:devincatuns1@gmail.com">email</a>
 
