@@ -1,5 +1,6 @@
 package com.dcat23.cb.restaurantordering.user.filter;
 
+import com.dcat23.cb.restaurantordering.user.dto.JwtToken;
 import com.dcat23.cb.restaurantordering.user.security.JwtTokenGenerator;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -28,8 +29,8 @@ public class JwtTokenGeneratorFilter extends OncePerRequestFilter {
         if (auth != null) {
             Environment env = getEnvironment();
             String secret = env.getProperty(JWT_SECRET_KEY, JWT_SECRET_DEFAULT_VALUE);
-            String jwtToken = JwtTokenGenerator.generateToken(auth, secret);
-            response.setHeader(JWT_HEADER, jwtToken);
+            JwtToken jwtToken = JwtTokenGenerator.generateToken(auth, secret);
+            response.setHeader(JWT_HEADER, jwtToken.accessToken());
         }
         filterChain.doFilter(request, response);
     }

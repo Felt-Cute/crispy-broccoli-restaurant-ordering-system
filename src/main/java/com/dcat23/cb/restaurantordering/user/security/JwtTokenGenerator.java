@@ -1,5 +1,6 @@
 package com.dcat23.cb.restaurantordering.user.security;
 
+import com.dcat23.cb.restaurantordering.user.dto.JwtToken;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
@@ -19,14 +20,16 @@ public class JwtTokenGenerator {
     private static final String JWT_AUTHORITY_KEY = "authorities";
     private static final long JWT_TOKEN_EXPIRATION = 1000 * 60 * 60 * 10; // 10 hours
 
-    public static String generateToken(Authentication auth, String jwtSecret) {
+    public static JwtToken generateToken(Authentication auth, String jwtSecret) {
         SecretKey secretKey = Keys.hmacShaKeyFor(jwtSecret.getBytes(StandardCharsets.UTF_8));
-        return Jwts.builder().issuer(JWT_ISSUER).subject(auth.getName())
+        Date expiration = expiration();
+        String token = Jwts.builder().issuer(JWT_ISSUER).subject(auth.getName())
                 .claim(JWT_USERNAME_KEY, auth.getName())
                 .claim(JWT_AUTHORITY_KEY, extractAuthorities(auth))
                 .issuedAt(new Date())
-                .expiration(expiration())
+                .expiration(expiration)
                 .signWith(secretKey).compact();
+        return new JwtToken(token, expiration);
     }
 
     private static Date expiration() {

@@ -1,5 +1,6 @@
 package com.dcat23.cb.restaurantordering.user.controller;
 
+import com.dcat23.cb.restaurantordering.user.dto.JwtToken;
 import com.dcat23.cb.restaurantordering.user.dto.UserLoginDto;
 import com.dcat23.cb.restaurantordering.user.dto.UserRegistrationDto;
 import com.dcat23.cb.restaurantordering.user.dto.UserUpdateDto;
@@ -14,6 +15,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
+import static com.dcat23.cb.restaurantordering.user.security.SecurityConstants.JWT_HEADER;
 
 @RestController
 @RequestMapping("/api/users")
@@ -33,9 +36,11 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<User> login(@Valid @RequestBody UserLoginDto userLogin) {
-        User user = userService.login(userLogin);
-        return ResponseEntity.ok(user);
+    public ResponseEntity<JwtToken> login(@Valid @RequestBody UserLoginDto userLogin) {
+        JwtToken jwt = userService.login(userLogin);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .header(JWT_HEADER, jwt.accessToken())
+                .body(jwt);
     }
 
     @GetMapping("/profile")

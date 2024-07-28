@@ -1,8 +1,6 @@
 package com.dcat23.cb.restaurantordering.user.service;
 
-import com.dcat23.cb.restaurantordering.user.dto.UserLoginDto;
-import com.dcat23.cb.restaurantordering.user.dto.UserRegistrationDto;
-import com.dcat23.cb.restaurantordering.user.dto.UserUpdateDto;
+import com.dcat23.cb.restaurantordering.user.dto.*;
 import com.dcat23.cb.restaurantordering.user.model.User;
 
 import java.util.List;
@@ -10,7 +8,7 @@ import java.util.List;
 public interface UserService {
     User registerUser(UserRegistrationDto userRegistration);
 
-    User login(UserLoginDto userLogin);
+    JwtToken login(UserLoginDto userLogin);
 
     User getUserByUsername(String authentication);
 

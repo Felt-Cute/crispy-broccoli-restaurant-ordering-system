@@ -27,7 +27,7 @@ logging:
   level:
     root: error
     com.dcat23: debug
-    org.springframework.security: ${SECURITY_LOGGING_LEVEL:warn}
+    org.springframework.security: ${SECURITY_LOGGING_LEVEL:trace}
 
 jwt:
   secret: ${JWT_SECRET:"this is a pretty long secret but it could be longer"}

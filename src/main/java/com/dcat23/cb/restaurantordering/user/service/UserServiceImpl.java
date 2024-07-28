@@ -1,16 +1,20 @@
 package com.dcat23.cb.restaurantordering.user.service;
 
 import com.dcat23.cb.restaurantordering.core.utils.Sanitize;
-import com.dcat23.cb.restaurantordering.user.dto.UserLoginDto;
-import com.dcat23.cb.restaurantordering.user.dto.UserRegistrationDto;
-import com.dcat23.cb.restaurantordering.user.dto.UserUpdateDto;
+import com.dcat23.cb.restaurantordering.user.dto.*;
 import com.dcat23.cb.restaurantordering.user.exception.UserAlreadyExistsException;
 import com.dcat23.cb.restaurantordering.user.exception.UserNotFoundException;
 import com.dcat23.cb.restaurantordering.user.model.Role;
 import com.dcat23.cb.restaurantordering.user.model.User;
 import com.dcat23.cb.restaurantordering.user.repository.UserRepository;
+import com.dcat23.cb.restaurantordering.user.security.JwtTokenGenerator;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -20,9 +24,12 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
+    @Value("${jwt.secret}")
+    private String jwtSecret;
+
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-//    private final AuthenticationManager authenticationManager;
+    private final AuthenticationManager authenticationManager;
 
     /**
      * @param registrationDTO object with User data
@@ -51,9 +58,21 @@ public class UserServiceImpl implements UserService {
      * @return the authorized User
      */
     @Override
-    public User login(UserLoginDto userLogin) {
+    public JwtToken login(UserLoginDto userLogin) {
+        Authentication auth = authenticateLogin(userLogin);
+        if (auth == null || !auth.isAuthenticated()) {
+            throw new BadCredentialsException("Username or password is incorrect");
+        }
+        return JwtTokenGenerator.generateToken(auth, jwtSecret);
+    }
 
-        return null;
+    private Authentication authenticateLogin(UserLoginDto userLoginDTO) {
+        return authenticationManager.authenticate(
+                UsernamePasswordAuthenticationToken.unauthenticated(
+                        userLoginDTO.username(),
+                        userLoginDTO.password()
+                )
+        );
     }
 
     /**
